@@ -9,7 +9,8 @@ from random import choice
 class Economy(commands.Cog):
 
     def __init__(self,client):
-        self.client = client      
+        self.client = client  
+        os.chdir('C:\\Users\\Naveen Bagotra\\Desktop\\VSCode\\Yuki\\databases')    
 
     mainshop = [{"name":"<@&978556685557833750>","price":"5,000,000","emoji":"<a:S_SnowStone:976808329076678686>"},
                 {"name":"<@&978555585110872134> <@&978555580631367701> <@&978555595315634196> <@&978555589368086528>","price":"2,000,000","emoji":"<a:S_SnowStone:976808329076678686>"},
@@ -61,12 +62,12 @@ class Economy(commands.Cog):
             users[str(user.id)]["wallet"] = 0
             users[str(user.id)]["bank"] = 500
 
-        with open("C:\\Users\\Naveen Bagotra\\Desktop\\VSCode\\Yuki\\databases\\mainbank.json","w") as f:
+        with open("mainbank.json","w") as f:
             json.dump(users, f)
         return True    
 
     async def get_bank_data(self):
-        with open("C:\\Users\\Naveen Bagotra\\Desktop\\VSCode\\Yuki\\databases\\mainbank.json","r") as f:
+        with open("mainbank.json","r") as f:
             users = json.load(f)
         return users    
 
@@ -75,7 +76,7 @@ class Economy(commands.Cog):
 
         users[str(user.id)][mode] += change
 
-        with open("C:\\Users\\Naveen Bagotra\\Desktop\\VSCode\\Yuki\\databases\\mainbank.json","w") as f:
+        with open("mainbank.json","w") as f:
             json.dump(users,f)
 
         bal = [users[str(user.id)]["wallet"],users[str(user.id)]["bank"]]
@@ -204,7 +205,7 @@ class Economy(commands.Cog):
         em = nextcord.Embed(color=ctx.author.color, description=f"Someone gave you **{earnings}** <a:S_SnowStone:976808329076678686>", colour=ctx.author.color)
         await ctx.reply(embed=em)
 
-        with open("C:\\Users\\Naveen Bagotra\\Desktop\\VSCode\\Yuki\\databases\\mainbank.json","w") as f:
+        with open("mainbank.json","w") as f:
             json.dump(users, f)   
     @beg.error
     async def beg_error(self, ctx, error):
@@ -227,7 +228,7 @@ class Economy(commands.Cog):
         em = nextcord.Embed(color=nextcord.Color.green(), description=f"<a:S_Claimed:976839237800439858> **You have claimed your daily: {earnings}** <a:S_SnowStone:976808329076678686>")
         await ctx.reply(embed=em)
 
-        with open("C:\\Users\\Naveen Bagotra\\Desktop\\VSCode\\Yuki\\databases\\mainbank.json","w") as f:
+        with open("mainbank.json","w") as f:
             json.dump(users, f)   
     @daily.error
     async def daily_error(self, ctx, error):
@@ -253,7 +254,7 @@ class Economy(commands.Cog):
         em = nextcord.Embed(color=nextcord.Color.green(), description=f"<a:S_Claimed:976839237800439858> **You have claimed your hourly: {earnings}** <a:S_SnowStone:976808329076678686>")
         await ctx.reply(embed=em)
 
-        with open("C:\\Users\\Naveen Bagotra\\Desktop\\VSCode\\Yuki\\databases\\mainbank.json","w") as f:
+        with open("mainbank.json","w") as f:
             json.dump(users, f)   
     @hourly.error
     async def hourly_error(self, ctx, error):
@@ -284,7 +285,7 @@ class Economy(commands.Cog):
         em = nextcord.Embed(color=nextcord.Color.green(), description=f"<a:S_Claimed:976839237800439858> **{ctx.author.mention} {random.choice(works)} {earnings}** <a:S_SnowStone:976808329076678686>")
         await ctx.reply(embed=em)
 
-        with open("C:\\Users\\Naveen Bagotra\\Desktop\\VSCode\\Yuki\\databases\\mainbank.json","w") as f:
+        with open("mainbank.json","w") as f:
             json.dump(users, f)   
     @work.error
     async def work_error(self, ctx, error):
@@ -318,7 +319,7 @@ class Economy(commands.Cog):
         em = nextcord.Embed(color=ctx.author.color, description=f"You baked a {random.choice(food)} for {target.mention} <a:S_Love:977929410214776893> . . .\n They love you for being so thoughtful and gave you {earnings} <a:S_SnowStone:976808329076678686>! <3")
         await ctx.reply(embed=em)
 
-        with open("C:\\Users\\Naveen Bagotra\\Desktop\\VSCode\\Yuki\\databases\\mainbank.json","w") as f:
+        with open("mainbank.json","w") as f:
             json.dump(users, f)   
     @bake.error
     async def bake_error(self, ctx, error):
