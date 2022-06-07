@@ -1,0 +1,10 @@
+nextcord==2.0.0a10
+humanfriendly==10.0
+owoify-py==2.0.0
+reddit==0.0.1
+requests==2.23.0
+env==0.1.0
+Django==4.0.2
+DateTime==4.3
+asyncio==3.4.3
+animec==0.4.2
