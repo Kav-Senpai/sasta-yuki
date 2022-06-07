@@ -11,3 +11,4 @@ animec==0.4.2
 schedule==1.1.0
 python-dotenv==0.13.0
 simpcalci==0.0.2
+aiofiles==0.8.0
