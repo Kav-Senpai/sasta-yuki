@@ -9,3 +9,5 @@ DateTime==4.3
 asyncio==3.4.3
 animec==0.4.2
 schedule==1.1.0
+dotenv==0.13.0
+simpcalci==0.0.2
