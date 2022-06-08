@@ -20,22 +20,22 @@ class Admin(commands.Cog):
     @commands.Cog.listener()
     async def on_message_delete(self, message):
         # Remove poll
-        with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\poll.json', 'r') as file:
+        with open('./poll.json', 'r') as file:
             poll_data = json.load(file)
 
         # Remove schedule
-        with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\scheduler.json', 'r') as file:
+        with open('./scheduler.json', 'r') as file:
             scheduler_data = json.load(file)
 
         if str(message.id) in poll_data:
             poll_data.pop(str(message.id))
 
-            with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\poll.json', 'w') as update_poll_data:
+            with open('./poll.json', 'w') as update_poll_data:
                 json.dump(poll_data, update_poll_data, indent=4)
 
             scheduler_data.pop(str(message.channel.id))
 
-            with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\scheduler.json', 'w') as update_scheduler_data:
+            with open('./scheduler.json', 'w') as update_scheduler_data:
                 json.dump(scheduler_data, update_scheduler_data, indent=4)
 
     @commands.command()
@@ -51,7 +51,7 @@ class Admin(commands.Cog):
             await ctx.send(':no_entry: Please provide poll maximum number of vote less then **million**!')
 
         else:
-            with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\scheduler.json', 'r') as scheduler_file:
+            with open('./scheduler.json', 'r') as scheduler_file:
                 scheduler_data = json.load(scheduler_file)
 
                 if str(ctx.message.channel.id) not in scheduler_data:
@@ -75,14 +75,14 @@ class Admin(commands.Cog):
                         await message.add_reaction(item)
 
                     # Poll data
-                    with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\poll.json', 'r') as poll_file:
+                    with open('./poll.json', 'r') as poll_file:
                         poll_data = json.load(poll_file)
                         new_message = str(message.id)
 
                         poll_dictionary = dict.fromkeys(list(options), 0)
                         poll_data[new_message] = [poll_dictionary]
 
-                        with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\poll.json', 'w') as new_poll_data:
+                        with open('./poll.json', 'w') as new_poll_data:
                             json.dump(poll_data, new_poll_data, indent=4)
 
                     # Poll schedule
@@ -90,7 +90,7 @@ class Admin(commands.Cog):
                                                           'poll_start_time': datetime.now().isoformat(),
                                                           'max_vote': vote}
 
-                    with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\scheduler.json', 'w') as new_scheduler_data:
+                    with open('./scheduler.json', 'w') as new_scheduler_data:
                         json.dump(scheduler_data, new_scheduler_data, indent=4)
 
                 else:
@@ -102,12 +102,12 @@ class Admin(commands.Cog):
             message = await self.client.get_channel(payload.channel_id).fetch_message(payload.message_id)
             reaction = nextcord.utils.get(message.reactions, emoji=payload.emoji.name)
 
-            with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\poll.json', 'r') as poll_file:
+            with open('./poll.json', 'r') as poll_file:
                 poll_data = json.load(poll_file)
 
                 if str(payload.message_id) in poll_data:
                     # Time and max vote calculation
-                    with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\scheduler.json', 'r') as schedule:
+                    with open('./scheduler.json', 'r') as schedule:
                         scheduler_data = json.load(schedule)
 
                     max_vote_count = 0
@@ -135,7 +135,7 @@ class Admin(commands.Cog):
                         first_poll = list(poll_data[str(payload.message_id)][0].keys())[0]
                         poll_data[str(payload.message_id)][0][first_poll] += 1
 
-                        with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\poll.json', 'w') as update_poll_data:
+                        with open('./poll.json', 'w') as update_poll_data:
                             json.dump(poll_data, update_poll_data, indent=4)
 
                         
@@ -145,7 +145,7 @@ class Admin(commands.Cog):
                         second_poll = list(poll_data[str(payload.message_id)][0].keys())[1]
                         poll_data[str(payload.message_id)][0][second_poll] += 1
 
-                        with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\poll.json', 'w') as update_poll_data:
+                        with open('./poll.json', 'w') as update_poll_data:
                             json.dump(poll_data, update_poll_data, indent=4)
 
                         
@@ -155,7 +155,7 @@ class Admin(commands.Cog):
                         third_poll = list(poll_data[str(payload.message_id)][0].keys())[2]
                         poll_data[str(payload.message_id)][0][third_poll] += 1
 
-                        with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\poll.json', 'w') as update_poll_data:
+                        with open('./poll.json', 'w') as update_poll_data:
                             json.dump(poll_data, update_poll_data, indent=4)
 
                         
@@ -165,7 +165,7 @@ class Admin(commands.Cog):
                         fourth_poll = list(poll_data[str(payload.message_id)][0].keys())[3]
                         poll_data[str(payload.message_id)][0][fourth_poll] += 1
 
-                        with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\poll.json', 'w') as update_poll_data:
+                        with open('./poll.json', 'w') as update_poll_data:
                             json.dump(poll_data, update_poll_data, indent=4)
 
                         
@@ -175,7 +175,7 @@ class Admin(commands.Cog):
                         fifth_poll = list(poll_data[str(payload.message_id)][0].keys())[4]
                         poll_data[str(payload.message_id)][0][fifth_poll] += 1
 
-                        with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\poll.json', 'w') as update_poll_data:
+                        with open('./poll.json', 'w') as update_poll_data:
                             json.dump(poll_data, update_poll_data, indent=4)
 
                         
@@ -185,7 +185,7 @@ class Admin(commands.Cog):
                         sixth_poll = list(poll_data[str(payload.message_id)][0].keys())[5]
                         poll_data[str(payload.message_id)][0][sixth_poll] += 1
 
-                        with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\poll.json', 'w') as update_poll_data:
+                        with open('./poll.json', 'w') as update_poll_data:
                             json.dump(poll_data, update_poll_data, indent=4)
 
                         
@@ -195,7 +195,7 @@ class Admin(commands.Cog):
                         seventh_poll = list(poll_data[str(payload.message_id)][0].keys())[6]
                         poll_data[str(payload.message_id)][0][seventh_poll] += 1
 
-                        with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\poll.json', 'w') as update_poll_data:
+                        with open('./poll.json', 'w') as update_poll_data:
                             json.dump(poll_data, update_poll_data, indent=4)
 
                         
@@ -205,7 +205,7 @@ class Admin(commands.Cog):
                         eighth_poll = list(poll_data[str(payload.message_id)][0].keys())[7]
                         poll_data[str(payload.message_id)][0][eighth_poll] += 1
 
-                        with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\poll.json', 'w') as update_poll_data:
+                        with open('./poll.json', 'w') as update_poll_data:
                             json.dump(poll_data, update_poll_data, indent=4)
 
                         
@@ -215,7 +215,7 @@ class Admin(commands.Cog):
                         ninth_poll = list(poll_data[str(payload.message_id)][0].keys())[8]
                         poll_data[str(payload.message_id)][0][ninth_poll] += 1
 
-                        with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\poll.json', 'w') as update_poll_data:
+                        with open('./poll.json', 'w') as update_poll_data:
                             json.dump(poll_data, update_poll_data, indent=4)
 
                         
@@ -225,7 +225,7 @@ class Admin(commands.Cog):
                         tenth_poll = list(poll_data[str(payload.message_id)][0].keys())[9]
                         poll_data[str(payload.message_id)][0][tenth_poll] += 1
 
-                        with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\poll.json', 'w') as update_poll_data:
+                        with open('./poll.json', 'w') as update_poll_data:
                             json.dump(poll_data, update_poll_data, indent=4)
 
                         
@@ -698,7 +698,7 @@ class Admin(commands.Cog):
 
     @tasks.loop(minutes=1)
     async def poll_result(self):
-        with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\scheduler.json', 'r') as schedule_file:
+        with open('./scheduler.json', 'r') as schedule_file:
             scheduler_data = json.load(schedule_file)
 
             for item in scheduler_data.items():
@@ -712,7 +712,7 @@ class Admin(commands.Cog):
                 channel = self.client.get_channel(int(item[0]))
                 message = await channel.fetch_message(item[1]['message_id'])
 
-                with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\poll.json', 'r') as poll_file:
+                with open('./poll.json', 'r') as poll_file:
                     poll_data = json.load(poll_file)
 
                 poll_outcome = max(poll_data[str(message.id)][0].items(), key=lambda i: i[1])
@@ -724,12 +724,12 @@ class Admin(commands.Cog):
 
                         # Remove poll
                         poll_data.pop(str(message.id))
-                        with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\poll.json', 'w') as update_poll_data:
+                        with open('./poll.json', 'w') as update_poll_data:
                             json.dump(poll_data, update_poll_data, indent=4)
 
                         # Remove schedule
                         scheduler_data.pop(str(channel.id))
-                        with open('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases\\scheduler.json', 'w') as update_scheduler_data:
+                        with open('./scheduler.json', 'w') as update_scheduler_data:
                             json.dump(scheduler_data, update_scheduler_data, indent=4)
 
                             break
