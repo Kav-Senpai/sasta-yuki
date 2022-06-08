@@ -181,4 +181,4 @@ if __name__ == "__main__":
             print(f"Error loading {extension}", file=sys.stderr)
             traceback.print_exc()  
 
-client.run(os.getenv("TOKEN"))
+client.run(os.getenv("MIKU"))

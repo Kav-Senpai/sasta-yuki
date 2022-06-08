@@ -11,7 +11,7 @@ class Economy(commands.Cog):
     def __init__(self,client):
         self.client = client  
     
-    os.chdir('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki')    
+    os.chdir('C:\\Users\\Naveen Bagotra\\Documents\\GitHub\\sasta-yuki\\databases')    
 
     mainshop = [{"name":"<@&978556685557833750>","price":"5,000,000","emoji":"<a:S_SnowStone:976808329076678686>"},
                 {"name":"<@&978555585110872134> <@&978555580631367701> <@&978555595315634196> <@&978555589368086528>","price":"2,000,000","emoji":"<a:S_SnowStone:976808329076678686>"},
