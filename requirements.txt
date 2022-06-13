@@ -8,7 +8,4 @@ Django==4.0.2
 DateTime==4.3
 asyncio==3.4.3
 animec==0.4.2
-schedule==1.1.0
-python-dotenv==0.13.0
-simpcalci==0.0.2
-aiofiles==0.8.0
+nekos.py==1.1.0

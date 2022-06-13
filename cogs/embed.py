@@ -162,7 +162,24 @@ class Embeds(commands.Cog):
         await ctx.send("https://cdn.discordapp.com/attachments/961610704060829696/979352969357189180/partners.png")
         await ctx.send(embed=p)
 
-    
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def staff(self, ctx):
+
+        a = nextcord.Embed(color=0xFAC898, title="Yuki Café Staff Application!", description="Welcome to server's staff applications channel! Staff members need to be consistently active every week. __Applying does not guarantee your promotion__, it simply means you'll be an option, and that we may possibly choose you, but also may possibly choose someone else. If you were not chosen, feel free to apply again after a month if applications are opened!")
+        b = nextcord.Embed(color=0xFAC898, title="__Administrator Information__:", description="Admins are practically the co-owners of this server. To be an admin, you must be a moderator first. You have to gain and maintain our trust and show __**longterm loyalty**__. If you still show constant interest after a long time of helping the server out, when time is best, you'll randomly be informed & promoted. Admins are rewarded with 4 extra perks & their suggestions/requests are most of the time approved.")
+        c = nextcord.Embed(color=0xFAC898, description="__**Moderator Requirements**__**:**\n<a:BlueStarRoll_yuki:985803807516684308> • 3k+ Messages a week!\n<a:YellowStarRoll_yuki:985803780916396043> • being emotionally stable!\n<a:BlueStarRoll_yuki:985803807516684308> • Age 13+\n<a:YellowStarRoll_yuki:985803780916396043> • Been in the server for at least 1.5+ months!\n\n__**Moderator Expectations**__**:**\n<a:BlueStarRoll_yuki:985803807516684308> • We expect you to not abuse your powers!\n<a:YellowStarRoll_yuki:985803780916396043> • Delete nsfw messages sent in the public chats!\n<a:BlueStarRoll_yuki:985803807516684308> • Warn and remove people who break the server rules!\n<a:YellowStarRoll_yuki:985803780916396043> • Assist other users in need!")
+        c.set_footer(text="Not following what's required will possibly result in demotion!")
+        d = nextcord.Embed(color=0xFAC898, description="__**Staff Requirements**__**:**\n<a:BlueStarRoll_yuki:985803807516684308> • 1k+ Messages a week!\n<a:YellowStarRoll_yuki:985803780916396043> • Few to no warnings!\n<a:BlueStarRoll_yuki:985803807516684308> • Age 13+\n<a:YellowStarRoll_yuki:985803780916396043> • Been in the server for at least 20 days!\n\n__**Staff Expectations**__**:**\n<a:BlueStarRoll_yuki:985803807516684308> • We expect you to not abuse your powers!\n<a:YellowStarRoll_yuki:985803780916396043> • Delete nsfw messages sent in the public chats!\n<a:BlueStarRoll_yuki:985803807516684308> • Warn or mute people who break the server rules!\n<a:YellowStarRoll_yuki:985803780916396043> • Be there for users who create tickets!")
+        d.set_footer(text="Not following what's required will possibly result in demotion!")
+        await ctx.send("https://cdn.discordapp.com/attachments/961610704060829696/985804585845289041/staffapply.png")
+        await ctx.send(embed=a)
+        await ctx.send("https://cdn.discordapp.com/attachments/961610704060829696/985830152154001418/Untitled-1.png")        
+        await ctx.send(embed=b)
+        await ctx.send("https://cdn.discordapp.com/attachments/961610704060829696/985830321599692810/mod.png")
+        await ctx.send(embed=c)
+        await ctx.send("https://cdn.discordapp.com/attachments/961610704060829696/985830469092380712/staff.png")  
+        await ctx.send(embed=d)      
 
 def setup(client):
     client.add_cog(Embeds(client))        

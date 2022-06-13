@@ -96,35 +96,69 @@ class Anime(commands.Cog):
             await ctx.reply(embed=embed,view=view)     
 
     @commands.command(aliases=["BLUSH","Blush"])
-    async def blush(self, ctx: commands.Context, *, reason=""):
+    async def blush(self, ctx: commands.Context, member:nextcord.Member=None, *, reason=""):
         char = animec.waifu.Waifu()        
 
         blush_names = ["blushed!! >///<","'s face is red!","has turned into a tomato!","is blushing!"]
 
-        em=nextcord.Embed(description= reason, color= ctx.author.color)
-        em.set_author(name=f"{ctx.author.name} {random.choice(blush_names)}")
-        em.set_image(url=char.blush())
-        em.set_footer(text="How cuteeee :3")
-        await ctx.send(embed=em)
+        if ctx.message.reference:
+            original = await ctx.channel.fetch_message(ctx.message.reference.message_id)    
+            embed=nextcord.Embed(description= reason, color= original.author.color)
+            embed.set_author(name=f"{ctx.author.name} blushed because of {original.author.name}!")
+            embed.set_image(url=char.blush())
+            embed.set_footer(text="How cuteeee :3")
+            await ctx.send(embed=embed)   
+            return
+        if member == None:
+            em=nextcord.Embed(description= reason, color= ctx.author.color)
+            em.set_author(name=f"{ctx.author.name} {random.choice(blush_names)}")
+            em.set_image(url=char.blush())
+            em.set_footer(text="How cuteeee :3")
+            await ctx.send(embed=em)
+            return
+        else:    
+            embed=nextcord.Embed(description= reason, color= member.color)
+            embed.set_author(name=f"{ctx.author.name} blushed because of {member.name}!")
+            embed.set_image(url=char.blush())
+            embed.set_footer(text="How cuteeee :3")
+            await ctx.send(embed=embed)    
+            return        
 
     @commands.command(aliases=["Cry","CRY"])
-    async def cry(self, ctx:commands.Context, *, reason=""):
+    async def cry(self, ctx:commands.Context, member:nextcord.Member=None, *, reason=""):
         char = animec.waifu.Waifu()        
 
         cry_names = ["cries a river :'c","cries ;-;","is crying :'<","needs a hug..."]
-
+    
+        if ctx.message.reference:
+            original = await ctx.channel.fetch_message(ctx.message.reference.message_id)    
+            embed=nextcord.Embed(description= reason, color= original.author.color)
+            embed.set_author(name=f"{ctx.author.name} cried because of {original.author.name}!")
+            embed.set_image(url=char.cry())
+            embed.set_footer(text="Why u made them cry >:(")
+            await ctx.send(embed=embed) 
+            return            
         if member == None:
+            em=nextcord.Embed(description= reason, color= ctx.author.color)
+            em.set_author(name=f"{ctx.author.name} {random.choice(cry_names)}")
+            em.set_image(url=char.cry())
+            em.set_footer(text="Who made them cry >:(")
+            await ctx.send(embed=em)
+            return
+        if member == ctx.author:
             em=nextcord.Embed(description= reason, color= member.color)
             em.set_author(name=f"{ctx.author.name} {random.choice(cry_names)}")
             em.set_image(url=char.cry())
             em.set_footer(text="Who made them cry >:(")
             await ctx.send(embed=em)
+            return            
         else:    
-            embed=nextcord.Embed(description= reason, color= ctx.author.color)
+            embed=nextcord.Embed(description= reason, color= member.color)
             embed.set_author(name=f"{ctx.author.name} cried because of {member.name}!")
             embed.set_image(url=char.cry())
             embed.set_footer(text="Why u made them cry >:(")
             await ctx.send(embed=embed)
+            return 
 
     @commands.command(aliases=["WINK","Wink"])
     async def wink(self, ctx: commands.Context, member:nextcord.Member=None, *, reason=""):
@@ -133,18 +167,35 @@ class Anime(commands.Cog):
         single_wink = ["is winking~","winked!"]
         mingle_wink = ["winks at","is winking at"]
 
+        if ctx.message.reference:
+            original = await ctx.channel.fetch_message(ctx.message.reference.message_id)    
+            embed=nextcord.Embed(description= reason, color= original.author.color)
+            embed.set_author(name=f"{ctx.author.name} {random.choice(mingle_wink)} {original.author.name}!")
+            embed.set_image(url=char.wink())
+            embed.set_footer(text="Winky wink ;)")
+            await ctx.send(embed=embed) 
+            return            
         if member == None:
+            em=nextcord.Embed(description= reason, color= ctx.author.color)
+            em.set_author(name=f"{ctx.author.name} {random.choice(single_wink)}")
+            em.set_image(url=char.wink())
+            em.set_footer(text="Winky wink ;)")
+            await ctx.send(embed=em)    
+            return
+        if member == ctx.author:
             em=nextcord.Embed(description= reason, color= member.color)
             em.set_author(name=f"{ctx.author.name} {random.choice(single_wink)}")
             em.set_image(url=char.wink())
             em.set_footer(text="Winky wink ;)")
-            await ctx.send(embed=em)
+            await ctx.send(embed=em)    
+            return            
         else:    
             embed=nextcord.Embed(description= reason, color= ctx.author.color)
             embed.set_author(name=f"{ctx.author.name} {random.choice(mingle_wink)} {member.name}!")
             embed.set_image(url=char.wink())
             embed.set_footer(text="Winky wink ;)")
             await ctx.send(embed=embed)
+            return
 
     @commands.command(aliases=["BULLY","Bully"])
     async def bully(self, ctx: commands.Context, member:nextcord.Member=None, *, reason=""):
@@ -153,18 +204,35 @@ class Anime(commands.Cog):
         single_wink = ["bullied someone >:0","bullied!"]
         mingle_wink = ["bullies","bullied","is bullying"]
 
+        if ctx.message.reference:
+            original = await ctx.channel.fetch_message(ctx.message.reference.message_id)    
+            embed=nextcord.Embed(description= reason, color= original.author.color)
+            embed.set_author(name=f"{ctx.author.name} {random.choice(mingle_wink)} {original.author.name}!")
+            embed.set_image(url=char.bully())
+            embed.set_footer(text="Bullying is not so gud.. '-'")
+            await ctx.send(embed=embed) 
+            return   
         if member == None:
             em=nextcord.Embed(description= reason, color= ctx.author.color)
             em.set_author(name=f"{ctx.author.name} {random.choice(single_wink)}")
             em.set_image(url=char.bully())
             em.set_footer(text="Bullying is not so gud.. '-'")
             await ctx.send(embed=em)
+            return
+        if member == ctx.author:
+            em=nextcord.Embed(description= reason, color= ctx.author.color)
+            em.set_author(name=f"{ctx.author.name} {random.choice(single_wink)}")
+            em.set_image(url=char.bully())
+            em.set_footer(text="Bullying is not so gud.. '-'")
+            await ctx.send(embed=em)
+            return            
         else:    
             embed=nextcord.Embed(description= reason, color= member.color)
             embed.set_author(name=f"{ctx.author.name} {random.choice(mingle_wink)} {member.name}!")
             embed.set_image(url=char.bully())
             embed.set_footer(text="Bullying is not so gud.. '-'")
             await ctx.send(embed=embed)  
+            return
 
     @commands.command(aliases=["CUDDLE","Cuddle"])
     async def cuddle(self, ctx: commands.Context, member:nextcord.Member=None, *, reason=""):
@@ -173,20 +241,31 @@ class Anime(commands.Cog):
         single_wink = ["wants someone to cuddle with~","wants some cuddles :<"]
         mingle_wink = ["cuddles with","cuddled","is cuddling with"]
 
+        if ctx.message.reference:
+            original = await ctx.channel.fetch_message(ctx.message.reference.message_id)            
+            embed=nextcord.Embed(description= reason, color= original.author.color)
+            embed.set_author(name=f"{ctx.author.name} {random.choice(mingle_wink)} {original.author.name}!")
+            embed.set_image(url=char.cuddle())
+            embed.set_footer(text="Awiee :3")
+            await ctx.send(embed=embed)
+            return         
         em=nextcord.Embed(description= reason, color= ctx.author.color)
         em.set_author(name=f"{ctx.author.name} {random.choice(single_wink)}")
         em.set_image(url=char.cuddle())
         em.set_footer(text="Awiee :3")
         if member == None:
             await ctx.send(embed=em)
+            return
         if member == ctx.author:
-            await ctx.send(embed=em)    
+            await ctx.send(embed=em)  
+            return  
         else:    
             embed=nextcord.Embed(description= reason, color= member.color)
             embed.set_author(name=f"{ctx.author.name} {random.choice(mingle_wink)} {member.name}!")
             embed.set_image(url=char.cuddle())
             embed.set_footer(text="Awiee :3")
-            await ctx.send(embed=embed)  
+            await ctx.send(embed=embed)
+            return  
 
     @commands.command(aliases=["KILL","Kill"])
     async def kill(self, ctx: commands.Context, member:nextcord.Member=None, *, reason=""):
@@ -194,20 +273,31 @@ class Anime(commands.Cog):
 
         mingle_wink = ["killed","was killing","is killing"]
 
+        if ctx.message.reference:
+            original = await ctx.channel.fetch_message(ctx.message.reference.message_id)            
+            embed=nextcord.Embed(description= reason, color= original.author.color)
+            embed.set_author(name=f"{ctx.author.name} {random.choice(mingle_wink)} {original.author.name}!")
+            embed.set_image(url=char.kick())
+            embed.set_footer(text="Nuu fightinggg >:(")
+            await ctx.send(embed=embed)
+            return  
         em=nextcord.Embed(description= reason, colour= ctx.author.color)
         em.set_author(name=f"{ctx.author.name} killed themselves!")
         em.set_image(url=char.kick())
         em.set_footer(text="Oofs :<")
         if member == None:
             await ctx.send(embed=em)
+            return
         if member == ctx.author:
             await ctx.send(embed=em)    
+            return
         else:    
             embed=nextcord.Embed(description= reason, colour= member.color)
             embed.set_author(name=f"{ctx.author.name} {random.choice(mingle_wink)} {member.name}!")
             embed.set_image(url=char.kick())
             embed.set_footer(text="Nuu fightinggg >:(")
-            await ctx.send(embed=embed)                
+            await ctx.send(embed=embed)   
+            return              
 
     @commands.command(aliases=["HANDHOLD","Handhold"])
     async def handhold(self, ctx: commands.Context, member:nextcord.Member=None, *, reason=""):
@@ -216,20 +306,31 @@ class Anime(commands.Cog):
         single_wink = ["wants to hold hands with someone~","wants someone to hold hands with :<"]
         mingle_wink = ["hold hands with","holded hands with","is holding hands with"]
 
+        if ctx.message.reference:
+            original = await ctx.channel.fetch_message(ctx.message.reference.message_id)            
+            embed=nextcord.Embed(description= reason, color= original.author.color)
+            embed.set_author(name=f"{ctx.author.name} {random.choice(mingle_wink)} {original.author.name}!")
+            embed.set_image(url=char.handhold())
+            embed.set_footer(text="Awiee :3")
+            await ctx.send(embed=embed)  
+            return
         em=nextcord.Embed(description= reason, color= ctx.author.color)
         em.set_author(name=f"{ctx.author.name} {random.choice(single_wink)}")
         em.set_image(url=char.handhold())
         em.set_footer(text="I'll hold your handdd :3")
         if member == None:
             await ctx.send(embed=em)
+            return
         if member == ctx.author:
-            await ctx.send(embed=em)    
+            await ctx.send(embed=em)  
+            return  
         else:    
             embed=nextcord.Embed(description= reason, color= member.color)
             embed.set_author(name=f"{ctx.author.name} {random.choice(mingle_wink)} {member.name}!")
             embed.set_image(url=char.handhold())
             embed.set_footer(text="Awiee :3")
-            await ctx.send(embed=embed)    
+            await ctx.send(embed=embed)  
+            return  
 
     @commands.command(aliases=["DANCE","Dance"])
     async def dance(self, ctx: commands.Context, member:nextcord.Member=None, *, reason=""):
@@ -238,20 +339,31 @@ class Anime(commands.Cog):
         single_wink = ["wants someone to dance with someone~","wants someone to dance with :<"]
         mingle_wink = ["is dancing with","danced with"]
 
+        if ctx.message.reference:
+            original = await ctx.channel.fetch_message(ctx.message.reference.message_id)            
+            embed=nextcord.Embed(description= reason, color= original.author.color)
+            embed.set_author(name=f"{ctx.author.name} {random.choice(mingle_wink)} {original.author.name}!")
+            embed.set_image(url=char.dance())
+            embed.set_footer(text="The moves tho >:3")
+            await ctx.send(embed=embed)  
+            return
         em=nextcord.Embed(description= reason, color= ctx.author.color)
         em.set_author(name=f"{ctx.author.name} {random.choice(single_wink)}")
         em.set_image(url=char.dance())
         em.set_footer(text="Lemme dance with you >:3")
         if member == None:
             await ctx.send(embed=em)
+            return
         if member == ctx.author:
             await ctx.send(embed=em)    
+            return
         else:    
             embed=nextcord.Embed(description= reason, color= member.color)
             embed.set_author(name=f"{ctx.author.name} {random.choice(mingle_wink)} {member.name}!")
             embed.set_image(url=char.dance())
             embed.set_footer(text="The moves tho >:3")
             await ctx.send(embed=embed) 
+            return
 
     @commands.command(aliases=["SMUG","Smug"])
     async def smug(self, ctx: commands.Context, member:nextcord.Member=None, *, reason=""):
@@ -259,20 +371,31 @@ class Anime(commands.Cog):
 
         mingle_wink = ["smugged to","is smugging to"]
 
+        if ctx.message.reference:
+            original = await ctx.channel.fetch_message(ctx.message.reference.message_id)            
+            embed=nextcord.Embed(description= reason, color= original.author.color)
+            embed.set_author(name=f"{ctx.author.name} {random.choice(mingle_wink)} {original.author.name}!")
+            embed.set_image(url=char.smug())
+            embed.set_footer(text="Ouu 😏")
+            await ctx.send(embed=embed)  
+            return
         em=nextcord.Embed(description= reason, color= ctx.author.color)
         em.set_author(name=f"Something caused {ctx.author.name} to smug!")
         em.set_image(url=char.smug())
         em.set_footer(text="Ouu 😏")
         if member == None:
             await ctx.send(embed=em)
+            return
         if member == ctx.author:
-            await ctx.send(embed=em)    
+            await ctx.send(embed=em)   
+            return 
         else:    
             embed=nextcord.Embed(description= reason, color= member.color)
             embed.set_author(name=f"{ctx.author.name} {random.choice(mingle_wink)} {member.name}!")
             embed.set_image(url=char.smug())
             embed.set_footer(text="Ouu 😏")
-            await ctx.send(embed=embed)                                                
+            await ctx.send(embed=embed)     
+            return                                           
 
     @commands.command(aliases=["BITE","Bite"])
     async def bite(self, ctx: commands.Context, member:nextcord.Member=None, *, reason=""):
@@ -281,18 +404,36 @@ class Anime(commands.Cog):
                      "https://cdn.discordapp.com/attachments/713915865375965224/713940467292569690/He-8cZ2smMP.gif",
                      "https://cdn.discordapp.com/attachments/713915865375965224/713940455749976164/9fFfgfq_3A4.gif"]
         bite_names = ["is biting","bites","bitted"]
+
+        if ctx.message.reference:
+            original = await ctx.channel.fetch_message(ctx.message.reference.message_id)            
+            embed=nextcord.Embed(description= reason, color= original.author.color)
+            embed.set_author(name=f"{ctx.author.name} {random.choice(bite_names)} {original.author.name}!")
+            embed.set_image(url=char.bite())
+            embed.set_footer(text="Ouch~ That hurts..")
+            await ctx.send(embed=embed)  
+            return
         if member == None:
             em=nextcord.Embed(description= reason, color= ctx.author.color)
             em.set_author(name=f"{ctx.author.name} wants to bite something!")
             em.set_image(url=random.choice(bite_gifs))
-            em.set_footer(text="S-Stay away '-'")
+            em.set_footer(text="S-Stay awayy '-'")
             await ctx.send(embed=em)
+            return
+        if member == ctx.author:
+            embed=nextcord.Embed(description= reason, color= member.color)
+            embed.set_author(name=f"{ctx.author.name} bitted themselves!")
+            embed.set_image(url=char.bite())
+            embed.set_footer(text="Ouch~ That hurts..")
+            await ctx.send(embed=embed)  
+            return           
         else:    
             embed=nextcord.Embed(description= reason, color= member.color)
             embed.set_author(name=f"{ctx.author.name} {random.choice(bite_names)} {member.name}!")
             embed.set_image(url=char.bite())
             embed.set_footer(text="Ouch~ That hurts..")
             await ctx.send(embed=embed)
+            return
 
     @commands.command(aliases=["Cringe","CRINGE"])
     async def cringe(self, ctx: commands.Context, member:nextcord.Member=None, *, reason=""):
@@ -300,18 +441,35 @@ class Anime(commands.Cog):
 
         single_wink = ["is cringing hard!","cringed~"]
 
+        if ctx.message.reference:
+            original = await ctx.channel.fetch_message(ctx.message.reference.message_id)            
+            embed=nextcord.Embed(description= reason, color= original.author.color)
+            embed.set_author(name=f"{original.author.name} caused {ctx.author.name} to cringe!")
+            embed.set_image(url=char.cringe())
+            embed.set_footer(text="It was cringe >:p")
+            await ctx.send(embed=embed)
+            return
         if member == None:
             em=nextcord.Embed(description= reason, color= ctx.author.color)
             em.set_author(name=f"{ctx.author.name} {random.choice(single_wink)}")
             em.set_image(url=char.cringe())
             em.set_footer(text="It was cringe >:p")
             await ctx.send(embed=em)
+            return
+        if member == ctx.author:
+            em=nextcord.Embed(description= reason, color= ctx.author.color)
+            em.set_author(name=f"{ctx.author.name} cringed at themselves!")
+            em.set_image(url=char.cringe())
+            em.set_footer(text="It was cringe >:p")
+            await ctx.send(embed=em)
+            return            
         else:    
             embed=nextcord.Embed(description= reason, color= member.color)
             embed.set_author(name=f"{member.name} caused {ctx.author.name} to cringe!")
             embed.set_image(url=char.cringe())
             embed.set_footer(text="It was cringe >:p")
             await ctx.send(embed=embed)
+            return
 
     @commands.command(aliases=["HAPPY","Happy"])
     async def happy(self, ctx: commands.Context, member:nextcord.Member=None, *, reason=""):
@@ -319,18 +477,35 @@ class Anime(commands.Cog):
 
         single_wink = ["is happy!","is very happy~"]
 
+        if ctx.message.reference:
+            original = await ctx.channel.fetch_message(ctx.message.reference.message_id)            
+            embed=nextcord.Embed(description= reason, color= original.author.color)
+            embed.set_author(name=f"{original.author.name} made {ctx.author.name} happy!")
+            embed.set_image(url=char.happy())
+            embed.set_footer(text="That's niceee :3")
+            await ctx.send(embed=embed)
+            return
         if member == None:
             em=nextcord.Embed(description= reason, color= ctx.author.color)
             em.set_author(name=f"{ctx.author.name} {random.choice(single_wink)}")
             em.set_image(url=char.happy())
             em.set_footer(text="That's niceee :3")
             await ctx.send(embed=em)
+            return
+        if member == ctx.author:
+            em=nextcord.Embed(description= reason, color= ctx.author.color)
+            em.set_author(name=f"{ctx.author.name} {random.choice(single_wink)}")
+            em.set_image(url=char.happy())
+            em.set_footer(text="That's niceee :3")
+            await ctx.send(embed=em)   
+            return         
         else:    
             embed=nextcord.Embed(description= reason, color= member.color)
             embed.set_author(name=f"{member.name} made {ctx.author.name} happy!")
             embed.set_image(url=char.happy())
             embed.set_footer(text="That's niceee :3")
             await ctx.send(embed=embed)
+            return
 
     @commands.command(aliases=["SMILE","Smile"])
     async def smile(self, ctx: commands.Context, member:nextcord.Member=None, *, reason=""):
@@ -338,18 +513,35 @@ class Anime(commands.Cog):
 
         single_wink = ["is smiling!","smiled~"]
 
+        if ctx.message.reference:
+            original = await ctx.channel.fetch_message(ctx.message.reference.message_id)            
+            embed=nextcord.Embed(description= reason, color= original.author.color)
+            embed.set_author(name=f"{original.author.name} made {ctx.author.name} smile!")
+            embed.set_image(url=char.happy())
+            embed.set_footer(text="You look cutee :3")
+            await ctx.send(embed=embed)       
+            return
         if member == None:
             em=nextcord.Embed(description= reason, color= ctx.author.color)
             em.set_author(name=f"{ctx.author.name} {random.choice(single_wink)}")
             em.set_image(url=char.happy())
             em.set_footer(text="You look cutee :3")
             await ctx.send(embed=em)
+            return
+        if member == ctx.author:
+            em=nextcord.Embed(description= reason, color= ctx.author.color)
+            em.set_author(name=f"{ctx.author.name} {random.choice(single_wink)}")
+            em.set_image(url=char.happy())
+            em.set_footer(text="You look cutee :3")
+            await ctx.send(embed=em)       
+            return     
         else:    
             embed=nextcord.Embed(description= reason, color= member.color)
             embed.set_author(name=f"{member.name} made {ctx.author.name} smile!")
             embed.set_image(url=char.happy())
             embed.set_footer(text="You look cutee :3")
-            await ctx.send(embed=embed)            
+            await ctx.send(embed=embed) 
+            return           
 
     @commands.command(aliases=["Highfive","HIGHFIVE"])
     async def highfive(self, ctx: commands.Context, member:nextcord.Member=None, *, reason=""):

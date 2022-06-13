@@ -17,17 +17,23 @@ from nextcord.ui import Button, View
 from nextcord import Embed
 import simpcalc 
 from simpcalc import simpcalc
-from utils import text_to_owo
-import owoify
-from owoify import owoify
+import nekos          
 
 class Fun(commands.Cog):
     """Some fun commands!"""
     def __init__(self,client):
-        self.client=client
+        self.client=client  
+        self.persistent_views_added = False   
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        if not self.persistent_views_added:
+            self.client.add_view(InteractiveView())
+            self.client.persistent_views_added = True
 
     @commands.command(aliases=["MEME","Meme"])
     async def meme(self,ctx):
+        """Sends a MEME"""
         async with ctx.channel.typing():
             async def get_meme():
                 async with aiohttp.ClientSession() as cs:
@@ -66,6 +72,7 @@ class Fun(commands.Cog):
         client.sniped_messages[message.guild.id] = (message.content, message.author, message.channel.name, message.created_at)
     @commands.command(aliases=["SNIPE","Snipe"])
     async def snipe(self,ctx):
+        """Shows the last deleted message"""
         try:
             contents, author, channel_name, time = client.sniped_messages[ctx.guild.id]
             
@@ -80,6 +87,7 @@ class Fun(commands.Cog):
 
     @commands.command(aliases=["TOPIC","Topic"])
     async def topic(self, ctx):
+        """Sends a random topic"""
         topics = ['Who is your favourite actor?',
                 'Are aliens real?',
                 'Best anime?',
@@ -125,6 +133,7 @@ class Fun(commands.Cog):
 
     @commands.command(aliases=['8ball','8BALL','8Ball'])
     async def _8ball(self, ctx, *, question):
+        """Sends a random answer to your question"""
         responses = ['🎱 It is certain.',
                     '🎱 It is decidedly so.',
                     '🎱 Without a doubt.',
@@ -151,6 +160,7 @@ class Fun(commands.Cog):
 
     @commands.command(aliases=["Emojify","EMOJIFY"])
     async def emojify(self, ctx,*,text):
+        """Converts text to emoji"""
         emojis = []
         for s in text.lower():
             if s.isdecimal():
@@ -164,128 +174,145 @@ class Fun(commands.Cog):
                 emojis.append(s)
         await ctx.send(' '.join(emojis))         
 
-    @commands.command()
-    async def uwuify(self, ctx):
-        await ctx.send(text_to_owo(ctx.message.content))
+    @commands.command(aliases=["UWUIFY","Uwuify"])
+    async def uwuify(self, ctx, member:nextcord.Member):
+        """Uwuifies the given member's name"""
+        smileys = [';;w;;', '^w^', '>w<', '(*^ω^)','UwU', '(・`ω\´・)', '(´・ω・\`)','(◕ᴥ◕)','(◕‿◕✿)',' ღ(U꒳Uღ)','(◡ ሠ ◡)','( ᴜ ω ᴜ )','(ㅅꈍ ˘ ꈍ)','(˘ε˘)']        
+        marks = ["??!","?!?","!!?",'!?!','!??','?!!']
+        await member.edit(nick=nekos.owoify(member.display_name))
+        await ctx.send(f"{member.mention}'s name has been uwuified{random.choice(marks)} {random.choice(smileys)}")
 
-    @commands.command()
-    async def owoify(self, ctx, *, text):
-        await ctx.send(owoify(text))
+    @commands.command(aliases=["Why","WHY"])
+    async def why(self, ctx):
+        """Sends a random WHY question"""
+        await ctx.reply(nekos.why())
 
-    @commands.command(name="calculate", aliases=["Calculate","CALCULATE"])
+    @commands.command(aliases=["Name","NAME"])
+    async def name(self, ctx):
+        """Sends a random name"""
+        await ctx.reply(nekos.name())
+
+    @commands.command(aliases=["Fact","FACT"])
+    async def fact(self, ctx):
+        """Sends a random fact"""
+        await ctx.reply(nekos.fact())        
+
+    @commands.command(name="calculate", aliases=["Calculate","CALCULATE","Calc","calc","CALC"])
     async def interactive_calc(self, ctx):
+        """Shows you the calculator"""
         view = InteractiveView()
         await ctx.send(embed = nextcord.Embed(title=f"Calculator!", description="", color=nextcord.Color.blue()),view=view)        
 
 class InteractiveView(nextcord.ui.View):
     def __init__(self):
-        super().__init__()
+        super().__init__(timeout=None)
         self.expr = ""
         self.calc = simpcalc.Calculate() # if you are using the above function, no need to declare this!    
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="1", row=0)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="1", row=0, custom_id="1")
     async def one(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         self.expr += "1"
         await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue()))
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="2", row=0)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="2", row=0, custom_id="2")
     async def two(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         self.expr += "2"
         await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue()))
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="3", row=0)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="3", row=0, custom_id="3")
     async def three(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         self.expr += "3"
         await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue()))
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.blurple, label="×", row=0)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.blurple, label="×", row=0, custom_id="*")
     async def multiply(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         self.expr += "*"
         await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue()))
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.red, label="Exit", row=0)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.red, label="Exit", row=0, custom_id="Exit")
     async def _exit(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
+        for child in self.children:
+            child.disabled=True
         self.expr = "Calculator Closed!"
-        await interaction.message.edit(embed = nextcord.Embed(title=self.expr,color=nextcord.Color.blue()), view=None)        
+        await interaction.message.edit(embed = nextcord.Embed(title=self.expr,color=nextcord.Color.blue()), view=self)        
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="4", row=1)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="4", row=1, custom_id="4")
     async def last(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         self.expr += "4"
         await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue()))
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="5", row=1)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="5", row=1, custom_id="5")
     async def five(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         self.expr += "5"
         await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue()))
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="6", row=1)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="6", row=1, custom_id="6")
     async def six(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         self.expr += "6"
         await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue()))
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.blurple, label="÷", row=1)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.blurple, label="÷", row=1, custom_id="/")
     async def divide(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
             self.expr += "/"
             await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue()))
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.red, label="🠀", row=1)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.red, label="🠀", row=1, custom_id="Back")
     async def back(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         self.expr = self.expr[:-1]
         await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue()))            
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="7", row=2)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="7", row=2, custom_id="7")
     async def seven(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         self.expr += "7"
         await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue()))
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="8", row=2)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="8", row=2, custom_id="8")
     async def eight(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         self.expr += "8"
         await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue()))
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="9", row=2)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="9", row=2, custom_id="9")
     async def nine(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         self.expr += "9"
         await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue()))
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.blurple, label="+", row=2)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.blurple, label="+", row=2, custom_id="+")
     async def plus(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         self.expr += "+"
         await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue()))
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.red, label="Clear", row=2)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.red, label="Clear", row=2, custom_id="lol")
     async def clear(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         self.expr = ""
         await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue()))                   
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="00", row=3)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="00", row=3, custom_id="00")
     async def doublezero(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         self.expr = "00"
         await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue()))
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="0", row=3)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label="0", row=3, custom_id="0")
     async def zero(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         self.expr += "0"
         await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue()))
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label=".", row=3)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.grey, label=".", row=3, custom_id=".")
     async def dot(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         self.expr += "."
         await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue()))   
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.blurple, label="-", row=3)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.blurple, label="-", row=3, custom_id="-")
     async def minus(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         self.expr += "-"
         await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue()))             
 
-    @nextcord.ui.button(style=nextcord.ButtonStyle.green, label="=", row=3)
+    @nextcord.ui.button(style=nextcord.ButtonStyle.green, label="=", row=3, custom_id="=")
     async def equal(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         try:
             self.expr = await self.calc.calculate(self.expr)
         except errors.BadArgument: # if you are function only, change this to BadArgument
             return await interaction.response.send_message("Um, looks like you provided a wrong expression....", ephemeral=True)
-        await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue()))
-         
+        await interaction.message.edit(embed = nextcord.Embed(title=f"Calculator!", description=self.expr, color=nextcord.Color.blue())) 
 
 def setup(client):
     client.add_cog(Fun(client))        

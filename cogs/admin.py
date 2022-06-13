@@ -41,6 +41,7 @@ class Admin(commands.Cog):
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def poll(self, ctx, time: int, vote: int, title, *options):
+        """Starts a poll"""
         if len(options) > 10:
             await ctx.send(':no_entry: You can only have **10 options** at maximum!')
 

@@ -8,11 +8,11 @@ class VC(commands.Cog):
 
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
-        guild = self.client.get_guild(961167197101756416)
+        guild = self.client.get_guild(947498180243767347)
         if after.channel != None:
-            if after.channel.id == 972318355673477170:
+            if after.channel.id == 947771990767456286:
                     maincategory = nextcord.utils.get(
-                        guild.categories, id=972318352880054362)
+                        guild.categories, id=947771955069726730)
                     channel2 = await guild.create_voice_channel(name=f'{member.display_name}', category=maincategory)
                     await channel2.set_permissions(member, connect=True, mute_members=True, manage_channels=True)
                     await member.move_to(channel2)

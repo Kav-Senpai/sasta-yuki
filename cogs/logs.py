@@ -3,6 +3,7 @@ from nextcord.ext import commands
 import random
 import time
 import datetime
+import json
 from datetime import date, timedelta
 from datetime import datetime
 from nextcord import File, ButtonStyle
@@ -42,6 +43,20 @@ class Logs(commands.Cog):
         view = View()
         view.add_item(button)
         await channel.send(embed=em,view=view)           
+
+    @commands.Cog.listener()
+    async def on_member_join(self, member):
+        role = self.client.get_channel(947771959926747146)
+        colors = self.client.get_channel(955357785053360128)
+        rules = self.client.get_channel(947512003969314857)
+        cmap = self.client.get_channel(947771959087861760)
+        info = self.client.get_channel(955447455971938314)
+        await info.send(f"{member.mention}", delete_after=0.10)        
+        await rules.send(f"{member.mention}", delete_after=0.10)
+        await cmap.send(f"{member.mention}", delete_after=0.10)        
+        await role.send(f"{member.mention}", delete_after=0.10)
+        await colors.send(f"{member.mention}", delete_after=0.10)
+         
 
 def setup(client):
     client.add_cog(Logs(client))        

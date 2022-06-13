@@ -8,6 +8,7 @@ from nextcord.utils import get
 import schedule
 import sys
 import time
+import requests
 import datetime
 import humanfriendly
 from random import choice
@@ -21,86 +22,45 @@ intents.members = True
 intents.messages = True
 prefix = [".",". "]
 client = commands.Bot(command_prefix=prefix, intents=intents)
+persistent_views_added = False
 
 @client.event
 async def on_ready():
     await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.listening, name=f".help | Snowy"))
+    if not persistent_views_added:
+        client.add_view(PersistentView())
+        client.persistent_views_added = True
+
     print("Miku is online!")     
+
+for fn in os.listdir("./cogs"):
+    if fn.endswith('.py'):
+        client.load_extension(f"cogs.{fn[:-3]}")
 
     #await ctx.send("This is a message", delete_after=5) # deletes message after 5 seconds
 
+@client.command()
+@commands.is_owner()
+async def load(ctx, extension):
+    client.load_extension(f"cogs.{extension}")
+    await ctx.send(f"Successfully loaded {extension}!")
+
+@client.command()
+@commands.is_owner()
+async def unload(ctx, extension):
+    client.unload_extension(f"cogs.{extension}")
+    await ctx.send(f"Successfully unloaded {extension}!")
+
+@client.command()
+@commands.is_owner()
+async def reload(ctx, extension):
+    client.reload_extension(f"cogs.{extension}")
+    await ctx.send(f"Successfully reloaded {extension}!")    
+
+#TEST
 @client.event
 async def on_member_join(member):
     await client.get_channel(944570768363245571).send(f"{member.mention} has joined the server!")
-
-#Moderation Commands                   
-
-@client.command(aliases=["MUTE","Mute"])
-@commands.has_permissions(manage_messages=True)
-async def mute(ctx, member:nextcord.Member, time, *, reason=None):
-    time= humanfriendly.parse_timespan(time)
-    muteEmbed=nextcord.Embed(title=ctx.guild.name, description="<a:S_warn:951397930961633291> **You got Muted!**", color= 0xff6961)
-    muteEmbed.add_field(name="Moderator", value=f"{ctx.author.mention}", inline= False)
-    muteEmbed.add_field(name="Reason", value=reason, inline= False)
-    muteEmbed.add_field(name="Time", value=f"{time}secs", inline= False)
-    muteEmbed.set_thumbnail(url=ctx.guild.icon)
-    muteEmbed.timestamp=ctx.message.created_at 
-    embed=nextcord.Embed(description=f"<a:S_Tick:963039878373842965> | {member.mention} has been muted!", color=0x77DD77)
-    if member.bot == True:
-        em=nextcord.Embed(description=f"<a:S_Cross:963039895922814996> | {ctx.author.mention} You cannot mute a bot!", color=0xFF6961)
-        await ctx.send(embed=em)
-        return
-    if member == ctx.author:
-        em=nextcord.Embed(description=f"<a:S_Cross:963039895922814996> | {ctx.author.mention} You cannot mute yourself!", color=0xFF6961)
-        await ctx.send("You cannot mute yourself!")
-        return
-    else:        
-        await member.edit(timeout=nextcord.utils.utcnow()+datetime.timedelta(seconds=time))
-        await ctx.channel.purge(limit=1)
-        await member.send(embed=muteEmbed)
-        await ctx.send(embed=embed)
-        return
-@mute.error
-async def mute_error(ctx, error):
-    if isinstance(error, commands.MissingRequiredArgument):
-        em=nextcord.Embed(title="Usage",description="`s!mute <mention/id> <time> [reason]`", color=0xFF6961)
-        em.set_author(name="mute", icon_url=ctx.author.avatar)
-        em.set_footer(text="Mute someone from the server!")
-        await ctx.channel.purge(limit=1)
-        await ctx.send(embed=em)
-        return           
-    if isinstance(error, commands.MissingPermissions):
-        em=nextcord.Embed(description=f"<a:S_Cross:963039895922814996> | {ctx.author.mention} You don't have the permission to mute members!", color=0xFF6961)
-        await ctx.channel.purge(limit=1)
-        await ctx.send(embed=em)
-        return     
-
-
-@client.command()
-@commands.has_permissions(manage_messages=True)
-async def unmute(ctx, member:nextcord.Member, *, reason=None):
-    unmuteEmbed=nextcord.Embed(title=ctx.guild.name, description="<a:S_Tick:963039878373842965> **You got Unmuted!**", color= 0x77DD77)
-    unmuteEmbed.add_field(name="Moderator", value=f"{ctx.author.mention}", inline= False)
-    unmuteEmbed.add_field(name="Reason", value=reason, inline= False)
-    unmuteEmbed.set_thumbnail(url=ctx.guild.icon)
-    unmuteEmbed.timestamp=ctx.message.created_at 
-    embed=nextcord.Embed(description=f"<a:S_Tick:963039878373842965> | {member.mention} has been unmuted!", color=0x77DD77)
-    if member.bot == True:
-        em=nextcord.Embed(description=f"<a:S_Cross:963039895922814996> | {ctx.author.mention} You cannot unmute a bot!", color=0xFF6961)
-        await ctx.send(embed=em)
-        return
-    if member == ctx.author:
-        em=nextcord.Embed(description=f"<a:S_Cross:963039895922814996> | {ctx.author.mention} You cannot unmute yourself!", color=0xFF6961)
-        await ctx.send("You cannot mute yourself!")
-        return
-    if member.timeout == None:
-        await ctx.send("member is not muted")   
-    else:        
-        await member.edit(timeout=None)
-        await member.send(embed=unmuteEmbed)
-        await ctx.channel.purge(limit=1)
-        await ctx.send(embed=embed)   
-  
 
 @client.command()
 async def timer(ctx, seconds):
@@ -136,6 +96,7 @@ async def timer_error(ctx,error):
         await ctx.send(f"<a:S_CrossTimer:963025312961134642> | Please enter a number!", delete_after=5)                               
 
 @client.command()
+@commands.has_permissions(administrator=True)
 async def toggle(ctx, *, command):
     command = client.get_command(command)
     if command == None:
@@ -151,34 +112,7 @@ async def toggle(ctx, *, command):
 async def on_command_error(ctx, error):
     if isinstance(error, commands.DisabledCommand):
         await ctx.send("Command is disabled ._.")
-        return        
+        return          
 
-#=============================================================================================================================
-                                                         #EVENTS
-#=============================================================================================================================
-                                           
 
-extensions = [
-    'cogs.logs',
-    'cogs.anime',
-    'cogs.vc',
-    'cogs.moderation',
-    'cogs.fun',
-    'cogs.info',
-    'cogs.admin',
-    'cogs.buttontest',
-    'cogs.economy',
-    'cogs.errors',
-    'cogs.embed',
-    'cogs.colors'
-    
-    ]
-if __name__ == "__main__":
-    for extension in extensions:
-        try:
-            client.load_extension(extension)
-        except Exception as e:
-            print(f"Error loading {extension}", file=sys.stderr)
-            traceback.print_exc()  
-
-client.run(os.getenv("TOKEN"))
+client.run(os.getenv("MIKU"))
