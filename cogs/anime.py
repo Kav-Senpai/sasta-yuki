@@ -547,18 +547,29 @@ class Anime(commands.Cog):
     async def highfive(self, ctx: commands.Context, member:nextcord.Member=None, *, reason=""):
         char = animec.waifu.Waifu()        
         highfive = ["gave a highfive to","highfives","highfives with"]
+
+        if ctx.message.reference:
+            original = await ctx.channel.fetch_message(ctx.message.reference.message_id)         
+            embed=nextcord.Embed(description= reason, color= original.author.color)
+            embed.set_author(name=f"{ctx.author.name} {random.choice(highfive)} {original.author.name}!")
+            embed.set_image(url=char.highfive())
+            embed.set_footer(text="Highfivesss!!")
+            await ctx.send(embed=embed)
+            return             
         if member == None:
             em=nextcord.Embed(description= reason, color= ctx.author.color)
             em.set_author(name=f"Someone gave {ctx.author.name} a highfive!")
             em.set_image(url=char.highfive())
             em.set_footer(text="Highfivesss!!")
             await ctx.send(embed=em)
+            return
         else:    
             embed=nextcord.Embed(description= reason, color= member.color)
             embed.set_author(name=f"{ctx.author.name} {random.choice(highfive)} {member.name}!")
             embed.set_image(url=char.highfive())
             embed.set_footer(text="Highfivesss!!")
             await ctx.send(embed=embed)
+            return
 
     @commands.command(aliases=["BONK","Bonk"])
     async def bonk(self, ctx: commands.Context, member:nextcord.Member=None, *, reason=""):
@@ -566,24 +577,35 @@ class Anime(commands.Cog):
 
         single_wink = ["is getting bonked by","got bonked by"]
 
+        if ctx.message.reference:
+            original = await ctx.channel.fetch_message(ctx.message.reference.message_id)   
+            embed=nextcord.Embed(description= reason, color= original.author.color)
+            embed.set_author(name=f"{original.author.name} {random.choice(single_wink)} {ctx.author.name}!")
+            embed.set_image(url=char.bonk())
+            embed.set_footer(text="Oops~")
+            await ctx.send(embed=embed)
+            return              
         if member == None:
             em=nextcord.Embed(description= reason, color= ctx.author.color)
             em.set_author(name=f"{ctx.author.name} bonked themselves..")
             em.set_image(url=char.bonk())
             em.set_footer(text="Oops~")
             await ctx.send(embed=em)
+            return
         if member == ctx.author:
             em=nextcord.Embed(description= reason, color= member.color)
             em.set_author(name=f"{ctx.author.name} bonked themselves..")
             em.set_image(url=char.bonk())
             em.set_footer(text="Oops~")
-            await ctx.send(embed=em)            
+            await ctx.send(embed=em)   
+            return         
         else:    
             embed=nextcord.Embed(description= reason, color= ctx.author.color)
             embed.set_author(name=f"{member.name} {random.choice(single_wink)} {ctx.author.name}!")
             embed.set_image(url=char.bonk())
             embed.set_footer(text="Oops~")
             await ctx.send(embed=embed)
+            return
 
     @commands.command(aliases=["SLAP","Slap"])
     async def slap(self, ctx: commands.Context, member:nextcord.Member=None, *, reason=""):
@@ -596,14 +618,25 @@ class Anime(commands.Cog):
         selfslap.set_footer(text="Just why tho..")
         if member == ctx.author:
             await ctx.send(embed=selfslap)
+            return
         if member == None:
-            await ctx.send(embed=selfslap)    
+            await ctx.send(embed=selfslap)
+            return    
+        if ctx.message.reference:
+            original = await ctx.channel.fetch_message(ctx.message.reference.message_id)     
+            slapEmbed=nextcord.Embed(description= reason, color=original.author.color)
+            slapEmbed.set_author(name=f"{ctx.author.name} {(random.choice(slaps))} {original.author.name}!")
+            slapEmbed.set_image(url=char.slap())
+            slapEmbed.set_footer(text="You kinda deserved it..")
+            await ctx.send(embed=slapEmbed)   
+            return                     
         else:    
             slapEmbed=nextcord.Embed(description= reason, color=member.color)
             slapEmbed.set_author(name=f"{ctx.author.name} {(random.choice(slaps))} {member.name}!")
             slapEmbed.set_image(url=char.slap())
             slapEmbed.set_footer(text="You kinda deserved it..")
             await ctx.send(embed=slapEmbed)
+            return
 
     @commands.command(aliases=["HUG","Hug"])
     async def hug(self, ctx:commands.Context, member:nextcord.Member=None, *, reason=""):
@@ -620,14 +653,25 @@ class Anime(commands.Cog):
         selfhug.set_footer(text="dw you're loved <3")
         if member == ctx.author:
             await ctx.send(embed=selfhug)
+            return
         if member == None:
-            await ctx.send(embed=selfhug)            
+            await ctx.send(embed=selfhug)
+            return
+        if ctx.message.reference:
+            original = await ctx.channel.fetch_message(ctx.message.reference.message_id)     
+            hugEmbed=nextcord.Embed(description= reason, color=original.author.color)
+            hugEmbed.set_author(name=f"{ctx.author.name} {(random.choice(hugs))} {original.author.name}!")
+            hugEmbed.set_image(url=char.hug())
+            hugEmbed.set_footer(text="Aww you got a hug!")
+            await ctx.send(embed=hugEmbed)     
+            return                                
         else:    
             hugEmbed=nextcord.Embed(description= reason, color=member.color)
             hugEmbed.set_author(name=f"{ctx.author.name} {(random.choice(hugs))} {member.name}!")
             hugEmbed.set_image(url=char.hug())
             hugEmbed.set_footer(text="Aww you got a hug!")
             await ctx.send(embed=hugEmbed)   
+            return
 
     @commands.command(aliases=["Kiss","KISS"])
     async def kiss(self, ctx:commands.Context, member:nextcord.Member=None, *, reason=""):
@@ -642,14 +686,25 @@ class Anime(commands.Cog):
         selfkiss.set_footer(text="Being single is sometimes nice thou..")
         if member == ctx.author:
             await ctx.send(embed=selfkiss)
+            return
         if member == None:
-            await ctx.send(embed=selfkiss)    
-        else:    
-            kissEmbed=nextcord.Embed(description= reason, color=member.color)
-            kissEmbed.set_author(name=f"{ctx.author.name} {(random.choice(kiss_names))} {member.display_name}!")
+            await ctx.send(embed=selfkiss)
+            return 
+        if ctx.message.reference:
+            original = await ctx.channel.fetch_message(ctx.message.reference.message_id)    
+            kissEmbed=nextcord.Embed(description= reason, color=original.author.color)
+            kissEmbed.set_author(name=f"{ctx.author.name} {(random.choice(kiss_names))} {original.author.name}!")
             kissEmbed.set_image(url=char.kiss())
             kissEmbed.set_footer(text="Lewd people..'-'")
-            await ctx.send(embed=kissEmbed)              
+            await ctx.send(embed=kissEmbed)     
+            return                           
+        else:    
+            kissEmbed=nextcord.Embed(description= reason, color=member.color)
+            kissEmbed.set_author(name=f"{ctx.author.name} {(random.choice(kiss_names))} {member.name}!")
+            kissEmbed.set_image(url=char.kiss())
+            kissEmbed.set_footer(text="Lewd people..'-'")
+            await ctx.send(embed=kissEmbed)            
+            return  
 
     @commands.command(aliases=["Pat","PAT"])
     async def pat(self, ctx:commands.Context, member:nextcord.Member=None, *, reason=""):
@@ -661,14 +716,25 @@ class Anime(commands.Cog):
         selfpat.set_footer(text="Someone please pat..'-'")
         if member == ctx.author:
             await ctx.send(embed=selfpat)   
+            return
         if member == None:
-            await ctx.send(embed=selfpat) 
+            await ctx.send(embed=selfpat)
+            return 
+        if ctx.message.reference:
+            original = await ctx.channel.fetch_message(ctx.message.reference.message_id) 
+            patEmbed=nextcord.Embed(description= reason, color=original.author.color)
+            patEmbed.set_author(name=f"{ctx.author.name} {(random.choice(pat_names))} {original.author.name}!")
+            patEmbed.set_image(url=char.pat())
+            patEmbed.set_footer(text="Aww you got a pat!")
+            await ctx.send(embed=patEmbed) 
+            return                        
         else:    
             patEmbed=nextcord.Embed(description= reason, color=member.color)
             patEmbed.set_author(name=f"{ctx.author.name} {(random.choice(pat_names))} {member.name}!")
             patEmbed.set_image(url=char.pat())
             patEmbed.set_footer(text="Aww you got a pat!")
-            await ctx.send(embed=patEmbed)    
+            await ctx.send(embed=patEmbed)   
+            return 
 
     @commands.command(aliases=["Waifu","WAIFU"])
     async def waifu(self, ctx):
