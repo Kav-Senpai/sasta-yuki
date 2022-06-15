@@ -11,6 +11,7 @@ import time
 import requests
 import datetime
 import humanfriendly
+import asyncpg
 from random import choice
 from nextcord import File, ButtonStyle
 from nextcord.ui import Button, View
@@ -22,15 +23,14 @@ intents.members = True
 intents.messages = True
 prefix = [".",". "]
 client = commands.Bot(command_prefix=prefix, intents=intents)
-persistent_views_added = False
+
+URL = os.environ.get("DATABASE_URL", None)
+async def create_db_pool():
+    client.pg_con = await asyncpg.create_pool(URL)
 
 @client.event
 async def on_ready():
     await client.change_presence(activity=nextcord.Activity(type=nextcord.ActivityType.listening, name=f".help | Snowy"))
-    if not persistent_views_added:
-        client.add_view(PersistentView())
-        client.persistent_views_added = True
-
     print("Miku is online!")     
 
 for fn in os.listdir("./cogs"):
@@ -114,5 +114,5 @@ async def on_command_error(ctx, error):
         await ctx.send("Command is disabled ._.")
         return          
 
-
+client.loop.run_until_complete(create_db_pool())
 client.run(os.getenv("TOKEN"))
