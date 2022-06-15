@@ -26,7 +26,7 @@ client = commands.Bot(command_prefix=prefix, intents=intents)
 
 URL = os.environ.get("DATABASE_URL", None)
 async def create_db_pool():
-    client.pg_con = await asyncpg.create_pool(URL)
+    client.pg_con = await asyncpg.create_pool(dns=URL)
 
 @client.event
 async def on_ready():
