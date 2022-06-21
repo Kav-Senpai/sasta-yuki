@@ -20,7 +20,7 @@ class Economy(commands.Cog):
                 {"name":"<@&955395403271008256> <@&955395443393720370> <@&955395392076390410> <@&955395374716170291> <@&955395183145533500>","price":"50,000","emoji":"<a:S_SnowStone:976808329076678686>"},                
                 {"name":"<@&955395970995195954> <@&955395167521738812> <@&955395178930241547> <@&955395991006240798> <@&955396028285210624>","price":"20,000","emoji":"<a:S_SnowStone:976808329076678686>"},                
                 {"name":"<@&978549357009858571>","price":"10,000","emoji":"<a:S_SnowStone:976808329076678686>"}]
-                
+
     @commands.command(aliases=["bal","BAL","BALANCE","Balance"])
     async def balance(self,ctx, member:nextcord.Member=None): 
         if member is None:        
@@ -846,6 +846,4 @@ class Economy(commands.Cog):
             await ctx.reply(embed=em)                          
 
 def setup(client):
-    client.add_cog(Economy(client))        
-    print("✅ | Economy cog ready!")  
-    print("---------------------------")          
+    client.add_cog(Economy(client))               

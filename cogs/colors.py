@@ -4,7 +4,7 @@ from nextcord import File, ButtonStyle
 from nextcord.ui import Button, View
 
 class Color(commands.Cog):
-    """Roles"""
+    """Color Roles"""
     def __init__(self,client):
         self.client = client
         self.persistent_views_added = False   
@@ -25,9 +25,9 @@ class Color(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def colors(self, ctx):
 
-        Iembed = nextcord.Embed(title="Pick olor at a time. \n `To change your color don't forget to remove the previous reaction before reacting to a new color`", color= 0x313131)
+        Iembed = nextcord.Embed(title="Pick your shades!", description="You are allowed to take just one color at a time. \n `To change your color don't forget to remove the previous reaction before reacting to a new color`", color= 0x313131)
         Bembed = nextcord.Embed(description= "<:blue:985128747780947998> ➺ <@&951818465361166397> \n <:lightblue:985128749978775592> ➺ <@&951818574270459924> \n <:crystal:985128752205934652> ➺ <@&951818617283018773>", color=0xAEC6CF)
-        Gembed = nextcord.Embed(description= "<:Green:955095612284624976> ➺ <@&951819847904407582> \n <:LightGreen:955095612150403092> ➺ <@&951819913222295582> \n <:AppleMint:955095612192354364> ➺ <@&951820052418691133>", color=0x77DD77)
+        Gembed = nextcord.Embed(description= "<:green:985128740977803284> ➺ <@&951819847904407582> \n <:lightgreen:985128743351775252> ➺ <@&951819913222295582> \n <:applemint:985128745327296557> ➺ <@&951820052418691133>", color=0x77DD77)
         Rembed = nextcord.Embed(description= "<:red:985129650969792512> ➺ <@&951820397584711710> \n <:lightred:985128736896741406> ➺ <@&951820501628649492> \n <:mellon:985128738918375484> ➺ <@&951820571874824242>", color=0xff6961)
         Yembed = nextcord.Embed(description= "<:yellow:985128730257158174> ➺ <@&951821056837038131> \n <:lightyellow:985128732677246976> ➺ <@&951821138441437234> \n <:paleyellow:985128734828941312> ➺ <@&951821192094949396>", color=0xFDFD96)
         Pembed = nextcord.Embed(description= "<:purple:984805338115096676> ➺ <@&951821433829466193> \n <:lightpurple:984805340220624906> ➺ <@&951821498224635954> \n <:amethist:984805342166806630> ➺ <@&951821583004074035>", color=0xC3B1E1)

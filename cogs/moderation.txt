@@ -1,43 +1,4 @@
-    
-    @commands.command(aliases=["Kick","KICK"])
-    @commands.has_permissions(kick_members=True)
-    async def kick(self, ctx, member:nextcord.Member, *, reason=None):
-        em=nextcord.Embed(description=f"<a:S_Cross:963039895922814996> | {ctx.author.mention} You cannot kick yourself!", color=0xFF6961)
-        if member == ctx.author:
-            await ctx.channel.purge(limit=1)
-            await ctx.send(embed=em)
-            return
-        if member.bot == True:
-            em=nextcord.Embed(description=f"<a:S_Cross:963039895922814996> | {ctx.author.mention} You cannot kick a bot!", color=0xFF6961)
-            await ctx.channel.purge(limit=1)
-            await ctx.send(embed=em)    
-            return
-        else:
-            kickEmbed=nextcord.Embed(title=ctx.guild.name, description="<a:S_warn:951397930961633291> **You got Kicked!**", color= 0xff6961)
-            kickEmbed.add_field(name="Moderator", value=f"{ctx.author.mention}", inline= False)
-            kickEmbed.add_field(name="Reason", value=reason, inline= False)
-            kickEmbed.set_thumbnail(url=ctx.guild.icon_url)
-            kickEmbed.timestamp=ctx.message.created_at 
-            em=nextcord.Embed(description=f"<a:S_Tick:963039878373842965> | {member.mention} has been kicked!", color=0x77DD77)
-            await member.send(embed=kickEmbed)
-            await member.kick(reason=reason)
-            await ctx.channel.purge(limit=1)
-            await ctx.send(embed=em)
-            return
-    @kick.error
-    async def kick_error(self, ctx, error):
-        if isinstance(error, commands.MissingPermissions):
-            em=nextcord.Embed(description=f"<a:S_Cross:963039895922814996> | {ctx.author.mention} You don't have the permission to kick members!", color=0xFF6961)
-            await ctx.channel.purge(limit=1)
-            await ctx.send(embed=em)
-            return    
-        if isinstance(error, commands.MissingRequiredArgument):
-            em=nextcord.Embed(title="Usage",description="`s!kick <mention/id> [reason]`", color=0xFF6961)
-            em.set_author(name="kick", icon_url=ctx.author.avatar)
-            em.set_footer(text="Kick someone from the server!")
-            await ctx.channel.purge(limit=1)
-            await ctx.send(embed=em)
-            return             
+       
 
     @commands.command(aliases=["Ban","BAN"])
     @commands.has_permissions(ban_members=True)

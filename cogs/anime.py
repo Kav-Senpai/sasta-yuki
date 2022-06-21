@@ -651,6 +651,12 @@ class Anime(commands.Cog):
         selfhug.set_author(name=f"{ctx.author.name} want some hugs!")
         selfhug.set_image(url=(random.choice(selfhugs)))
         selfhug.set_footer(text="dw you're loved <3")
+        if member == ctx.author:
+            await ctx.send(embed=selfhug)
+            return
+        if member == None:
+            await ctx.send(embed=selfhug)
+            return
         if ctx.message.reference:
             original = await ctx.channel.fetch_message(ctx.message.reference.message_id)     
             hugEmbed=nextcord.Embed(description= reason, color=original.author.color)
@@ -658,13 +664,7 @@ class Anime(commands.Cog):
             hugEmbed.set_image(url=char.hug())
             hugEmbed.set_footer(text="Aww you got a hug!")
             await ctx.send(embed=hugEmbed)     
-            return           
-        if member == ctx.author:
-            await ctx.send(embed=selfhug)
-            return
-        if member == None:
-            await ctx.send(embed=selfhug)
-            return                             
+            return                                
         else:    
             hugEmbed=nextcord.Embed(description= reason, color=member.color)
             hugEmbed.set_author(name=f"{ctx.author.name} {(random.choice(hugs))} {member.name}!")
@@ -684,6 +684,12 @@ class Anime(commands.Cog):
         selfkiss.set_author(name=f"{ctx.author.name} want some kisses!")
         selfkiss.set_image(url=(random.choice(selfkiss_gifs)))
         selfkiss.set_footer(text="Being single is sometimes nice thou..")
+        if member == ctx.author:
+            await ctx.send(embed=selfkiss)
+            return
+        if member == None:
+            await ctx.send(embed=selfkiss)
+            return 
         if ctx.message.reference:
             original = await ctx.channel.fetch_message(ctx.message.reference.message_id)    
             kissEmbed=nextcord.Embed(description= reason, color=original.author.color)
@@ -691,13 +697,7 @@ class Anime(commands.Cog):
             kissEmbed.set_image(url=char.kiss())
             kissEmbed.set_footer(text="Lewd people..'-'")
             await ctx.send(embed=kissEmbed)     
-            return              
-        if member == ctx.author:
-            await ctx.send(embed=selfkiss)
-            return
-        if member == None:
-            await ctx.send(embed=selfkiss)
-            return                      
+            return                           
         else:    
             kissEmbed=nextcord.Embed(description= reason, color=member.color)
             kissEmbed.set_author(name=f"{ctx.author.name} {(random.choice(kiss_names))} {member.name}!")
@@ -714,6 +714,12 @@ class Anime(commands.Cog):
         selfpat.set_author(name=f"{ctx.author.name} want some pats..")
         selfpat.set_image(url="https://cdn.discordapp.com/attachments/728925291644190730/737122101634531338/pat.gif")
         selfpat.set_footer(text="Someone please pat..'-'")
+        if member == ctx.author:
+            await ctx.send(embed=selfpat)   
+            return
+        if member == None:
+            await ctx.send(embed=selfpat)
+            return 
         if ctx.message.reference:
             original = await ctx.channel.fetch_message(ctx.message.reference.message_id) 
             patEmbed=nextcord.Embed(description= reason, color=original.author.color)
@@ -721,13 +727,7 @@ class Anime(commands.Cog):
             patEmbed.set_image(url=char.pat())
             patEmbed.set_footer(text="Aww you got a pat!")
             await ctx.send(embed=patEmbed) 
-            return           
-        if member == ctx.author:
-            await ctx.send(embed=selfpat)   
-            return
-        if member == None:
-            await ctx.send(embed=selfpat)
-            return                      
+            return                        
         else:    
             patEmbed=nextcord.Embed(description= reason, color=member.color)
             patEmbed.set_author(name=f"{ctx.author.name} {(random.choice(pat_names))} {member.name}!")

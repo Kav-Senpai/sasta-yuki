@@ -4,60 +4,13 @@ from nextcord import File, ButtonStyle
 from nextcord.ui import Button, View
 
 class Embeds(commands.Cog):
-    """Some fun commands!"""
+    """Server Embeds!"""
     def __init__(self,client):
         self.client=client
 
     @commands.command()
     @commands.has_permissions(administrator=True)
-    async def roles(self, ctx):
-        
-        Pembed=nextcord.Embed(color=0xE0BBE4)
-        Pembed.add_field(name='Pronouns*!*', value="Select which pronouns you'd like to use! \n \n ♂️・`He/Him` \n ♀️・`She/Her` \n :transgender_symbol:・`They/Them`", inline=False)
-        Pembed.set_thumbnail(url="https://cdn.discordapp.com/attachments/916959952080343060/953997251871658014/unknown.png")
-        Pembed.set_footer(text="Select a role by reacting!")
-        
-        Dembed=nextcord.Embed(color=0xE0BBE4)
-        Dembed.add_field(name="DM Preferences*!*", value="Select the preference for your DMs! \n \n 📭・`Dms Open` \n 📪・`Dms Closed` \n ❔・`Ask to dm` \n \n Please respect others' preferences! If you are DMed without consent please let a staff member know!")
-        Dembed.set_thumbnail(url="https://cdn.discordapp.com/attachments/916959952080343060/954608496727429120/mail.png")
-        Dembed.set_footer(text="Select a role by reacting!")
-
-        Rembed=nextcord.Embed(color=0xE0BBE4)
-        Rembed.add_field(name='Region*!*', value="Select the continent you live in! \n \n <:S_asia:953989155363360818>・`Asia` \n <:S_europe:953989155271106560>・`Europe` \n <:S_north_america:953989155178811462>・`North America` \n <:S_south_america:953989154453209159>・`South America` \n <:S_oceania:953989154805534761>・`Oceania` \n <:S_africa:953989155388542976>・`Africa`")
-        Rembed.set_thumbnail(url="https://cdn.discordapp.com/attachments/916959952080343060/954415551269175376/region.png")
-        Rembed.set_footer(text="Select a role by reacting!")
-
-        Aembed=nextcord.Embed(color=0xE0BBE4)
-        Aembed.add_field(name='Age*!*', value="Select the category for your age! \n \n <:S_Zenitsucry:954697294417133648>・`13-15` \n <:S_Kannalove:949974767627288626>・`16-18` \n <:S_uwusip:954697266621468682>・`18+`")
-        Aembed.set_thumbnail(url="https://cdn.discordapp.com/attachments/916959952080343060/954614570700382248/age.png")
-        Aembed.set_footer(text="Select a role by reacting!")
-
-        Gembed=nextcord.Embed(color=0xE0BBE4)
-        Gembed.add_field(name="Games*!*", value="Select the games you play! \n \n <:S_genshin_impact:953989155858309130>・`Genshin Impact` \n <:S_fortnite:953989155350790175>・`Fortnite` \n <:S_minecraft:953989155183013909>・`Minecraft` \n <:S_warzone:953989154885222462>・`COD Warzone` \n <:S_CODM:953989155602460702>・`CODM` \n <:S_roblox:953989155409526814>・`Roblox` \n <:S_valorant:953989155040424036>・`Valorant` \n <:S_apex_legends:953989154994278430>・`Apex Legends` \n <:S_league_of_legends:953989156533583872>・`League of Leagends` \n <:S_osu:953989155371761664>・`Osu!` \n <:S_among_us:953989155296256001>・`Among Us` \n <:S_CSGO:953989155493380096>・`Counter Strike`")
-        Gembed.set_thumbnail(url="https://cdn.discordapp.com/attachments/916959952080343060/954631928449994752/games.png")
-        Gembed.set_footer(text="Select a role by reacting!")
-
-        APembed=nextcord.Embed(color=0xE0BBE4)
-        APembed.add_field(name="Anime Preferences*!*", value="Select your preferences! \n \n <:S_Cutestare:951457328023101480>・`Anime Watcher` \n <:S_BlushWOW:949974767056859206>・`Manga Reader` \n <:S_Nezukopeek:949974767614709760>・`Light Novel Reader` \n <:S_Hugz:949974767417561158>・`Prefers Sub` \n <:S_Zerotwohug:954697266336251934>・`Prefers Dub` \n <:S_CatWTH:949693188044623922>・`Non Anime Watcher`")
-        APembed.set_thumbnail(url="https://cdn.discordapp.com/attachments/916959952080343060/954643077165879306/anime.png")
-        APembed.set_footer(text="Select a role by reacting!")
-
-        PGembed=nextcord.Embed(color=0xE0BBE4)
-        PGembed.add_field(name="Pings and Notifications*!*", value="Select your ping and notification roles! \n \n <:S_announce:954663840442884116>・`Announcement Pings` \n <:S_pings_make_me_meow:954663840505802762>・`Pings make me meow` \n 📰・`Server Updates` \n <:S_event:954663840438710312>・`Event Pings` \n 🎁・`Giveaway Pings`")
-        PGembed.set_thumbnail(url="https://cdn.discordapp.com/attachments/916959952080343060/954663716979368036/ping.png")
-        PGembed.set_footer(text="Select a role by reacting!")
-
-        await ctx.send("https://cdn.discordapp.com/attachments/916959952080343060/954681334956179486/Roles_snowy.png")
-        await ctx.send(embed=Pembed)
-        await ctx.send(embed=Dembed)
-        await ctx.send(embed=Rembed)
-        await ctx.send(embed=Aembed)
-        await ctx.send(embed=Gembed)
-        await ctx.send(embed=APembed)
-        await ctx.send(embed=PGembed)
-
-    @commands.command()
-    @commands.has_permissions(administrator=True)
+    @commands.guild_only()    
     async def info(self, ctx):
 
         welc = nextcord.Embed(color=0xF2D3BA, title="<a:SP_snowflake:951396520702410803> Welcome to Yuki Café! <a:SP_snowflake:951396520702410803>", description="Yuki Café is a community server where you can chat, make new friends and have fun. A committed Staff Team to assist you and keep the server a safe place for everyone. A great place to show your creativity, may it be arts, photography, writing, singing etc. Regular events and giveaways keep the server exciting for everyone. \n We hope to see you all within the server! ^-^ \n ˗ˏˋ Yuki ˎˊ˗ \n \n • Read the <#947512003969314857> \n • Grab some <#947771959926747146> \n • Come chat in <#947771966050418708> & <#947773050697416745>")
@@ -112,6 +65,7 @@ class Embeds(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(administrator=True)
+    @commands.guild_only()    
     async def u(self, ctx):
         embed = nextcord.Embed(color=0xaec6cf ,title="Table of Contents", description = "<a:Wave_yuki:979702424799428658> [Welcome to Yuki Café](https://discordapp.com/channels/947498180243767347/955447455971938314/979709646904385606)"
                                                                             "\n\n<a:Dance_yuki:979704651345707038> [Special Roles](https://discordapp.com/channels/947498180243767347/955447455971938314/979709652231147541)"
@@ -123,6 +77,7 @@ class Embeds(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(administrator=True)
+    @commands.guild_only()    
     async def rules(self, ctx):
 
         button1=Button(label="Discord Terms of Service", style=ButtonStyle.url, url="https://discord.com/terms")
@@ -155,6 +110,7 @@ class Embeds(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(administrator=True)
+    @commands.guild_only()    
     async def partner(self, ctx):
         p = nextcord.Embed(color=0x8BD3E6, description="╭⋟──────────────────╮")
         p.add_field(name="<a:YAY_yuki:979279604126744607> __Requirements for Partnerships__ <a:YAY_yuki:979279604126744607>", value="<a:SP_pinkarrow:951398530625445888> Your server MUST has 50+ members!\n<a:SP_bluearrow:951398530671591474> Your server follows the Discord TOS!\n<a:SP_pinkarrow:951398530625445888> Your server has a 'partner' channel available!\n<a:SP_bluearrow:951398530671591474> Your server is fully SFW (NSFW locked with an age verification is fine!)\n➥ DM any <@&947771899725905970> to get partnered!\n╰──────────────────⋞╯\n\n╭⋟──────────────────╮", inline= False)
@@ -164,13 +120,14 @@ class Embeds(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(administrator=True)
+    @commands.guild_only()
     async def staff(self, ctx):
 
         a = nextcord.Embed(color=0xFAC898, title="Yuki Café Staff Application!", description="Welcome to server's staff applications channel! Staff members need to be consistently active every week. __Applying does not guarantee your promotion__, it simply means you'll be an option, and that we may possibly choose you, but also may possibly choose someone else. If you were not chosen, feel free to apply again after a month if applications are opened!")
         b = nextcord.Embed(color=0xFAC898, title="__Administrator Information__:", description="Admins are practically the co-owners of this server. To be an admin, you must be a moderator first. You have to gain and maintain our trust and show __**longterm loyalty**__. If you still show constant interest after a long time of helping the server out, when time is best, you'll randomly be informed & promoted. Admins are rewarded with 4 extra perks & their suggestions/requests are most of the time approved.")
-        c = nextcord.Embed(color=0xFAC898, description="__**Moderator Requirements**__**:**\n<a:BlueStarRoll_yuki:985803807516684308> • 3k+ Messages a week!\n<a:YellowStarRoll_yuki:985803780916396043> • being emotionally stable!\n<a:BlueStarRoll_yuki:985803807516684308> • Age 13+\n<a:YellowStarRoll_yuki:985803780916396043> • Been in the server for at least 1.5+ months!\n\n__**Moderator Expectations**__**:**\n<a:BlueStarRoll_yuki:985803807516684308> • We expect you to not abuse your powers!\n<a:YellowStarRoll_yuki:985803780916396043> • Delete nsfw messages sent in the public chats!\n<a:BlueStarRoll_yuki:985803807516684308> • Warn and remove people who break the server rules!\n<a:YellowStarRoll_yuki:985803780916396043> • Assist other users in need!")
+        c = nextcord.Embed(color=0xFAC898, description="__**Moderator Requirements**__**:**\n<a:BlueStarRoll_yuki:985803807516684308> • Be active!\n<a:YellowStarRoll_yuki:985803780916396043> • being emotionally stable!\n<a:BlueStarRoll_yuki:985803807516684308> • Age 13+\n<a:YellowStarRoll_yuki:985803780916396043> • Been in the server for at least 1.5+ months!\n\n__**Moderator Expectations**__**:**\n<a:BlueStarRoll_yuki:985803807516684308> • We expect you to not abuse your powers!\n<a:YellowStarRoll_yuki:985803780916396043> • Delete nsfw messages sent in the public chats!\n<a:BlueStarRoll_yuki:985803807516684308> • Warn and remove people who break the server rules!\n<a:YellowStarRoll_yuki:985803780916396043> • Assist other users in need!")
         c.set_footer(text="Not following what's required will possibly result in demotion!")
-        d = nextcord.Embed(color=0xFAC898, description="__**Staff Requirements**__**:**\n<a:BlueStarRoll_yuki:985803807516684308> • 1k+ Messages a week!\n<a:YellowStarRoll_yuki:985803780916396043> • Few to no warnings!\n<a:BlueStarRoll_yuki:985803807516684308> • Age 13+\n<a:YellowStarRoll_yuki:985803780916396043> • Been in the server for at least 20 days!\n\n__**Staff Expectations**__**:**\n<a:BlueStarRoll_yuki:985803807516684308> • We expect you to not abuse your powers!\n<a:YellowStarRoll_yuki:985803780916396043> • Delete nsfw messages sent in the public chats!\n<a:BlueStarRoll_yuki:985803807516684308> • Warn or mute people who break the server rules!\n<a:YellowStarRoll_yuki:985803780916396043> • Be there for users who create tickets!")
+        d = nextcord.Embed(color=0xFAC898, description="__**Staff Requirements**__**:**\n<a:BlueStarRoll_yuki:985803807516684308> • Be active!\n<a:YellowStarRoll_yuki:985803780916396043> • Few to no warnings!\n<a:BlueStarRoll_yuki:985803807516684308> • Age 13+\n<a:YellowStarRoll_yuki:985803780916396043> • Been in the server for at least 20 days!\n\n__**Staff Expectations**__**:**\n<a:BlueStarRoll_yuki:985803807516684308> • We expect you to not abuse your powers!\n<a:YellowStarRoll_yuki:985803780916396043> • Delete nsfw messages sent in the public chats!\n<a:BlueStarRoll_yuki:985803807516684308> • Warn or mute people who break the server rules!\n<a:YellowStarRoll_yuki:985803780916396043> • Be there for users who create tickets!")
         d.set_footer(text="Not following what's required will possibly result in demotion!")
         await ctx.send("https://cdn.discordapp.com/attachments/961610704060829696/985804585845289041/staffapply.png")
         await ctx.send(embed=a)
@@ -180,6 +137,7 @@ class Embeds(commands.Cog):
         await ctx.send(embed=c)
         await ctx.send("https://cdn.discordapp.com/attachments/961610704060829696/985830469092380712/staff.png")  
         await ctx.send(embed=d)      
+        await ctx.send("<a:zStarsPastle_yuki:949693192402530344> **Application link below** <a:zStarsPastle_yuki:949693192402530344>\n<a:zBlueFlower_yuki:949693189323882496> https://forms.gle/FB4c2yhEvx95gj456")
 
 def setup(client):
     client.add_cog(Embeds(client))        

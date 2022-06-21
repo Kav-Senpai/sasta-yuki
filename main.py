@@ -21,12 +21,8 @@ load_dotenv()
 intents = nextcord.Intents.default()
 intents.members = True
 intents.messages = True
-prefix = [".",". "]
+prefix = ['. ','.']
 client = commands.Bot(command_prefix=prefix, intents=intents)
-
-URL = os.environ.get("DATABASE_URL", None)
-async def create_db_pool():
-    client.pg_con = await asyncpg.create_pool(dsn=URL)
 
 @client.event
 async def on_ready():
@@ -114,5 +110,4 @@ async def on_command_error(ctx, error):
         await ctx.send("Command is disabled ._.")
         return          
 
-client.loop.run_until_complete(create_db_pool())
-client.run(os.getenv("TOKEN"))
+client.run(os.getenv("MIKU"))

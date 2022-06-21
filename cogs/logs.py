@@ -3,7 +3,9 @@ from nextcord.ext import commands
 import random
 import time
 import datetime
+from datetime import datetime
 import json
+import asyncio
 from datetime import date, timedelta
 from datetime import datetime
 from nextcord import File, ButtonStyle
@@ -30,7 +32,7 @@ class Logs(commands.Cog):
     @commands.Cog.listener()
     async def on_message_edit(self, message_before, message_after):
         channel = self.client.get_channel(966222814564741170)
-        em = nextcord.Embed(color=nextcord.Color.blue())
+        em = nextcord.Embed(color=nextcord.Color.blue(), timestamp=datetime.utcnow())
         em.set_author(name="Message Edited!",icon_url=message_before.author.avatar)
         em.add_field(name="User Info", value=f"**Name:** {message_after.author.name}#{message_after.author.discriminator} \n **Mention:** {message_after.author.mention} \n **ID:** {message_after.author.id}", inline=True)
         em.add_field(name="Channel Info", value=f"**Name:** #{message_after.channel.name} \n **Mention:** {message_after.channel.mention} \n **ID:** {message_after.channel.id}", inline=True)
@@ -56,7 +58,8 @@ class Logs(commands.Cog):
         await cmap.send(f"{member.mention}", delete_after=0.10)        
         await role.send(f"{member.mention}", delete_after=0.10)
         await colors.send(f"{member.mention}", delete_after=0.10)
-         
+
+
 
 def setup(client):
     client.add_cog(Logs(client))        
