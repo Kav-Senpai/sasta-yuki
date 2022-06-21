@@ -56,40 +56,7 @@ async def reload(ctx, extension):
 #TEST
 @client.event
 async def on_member_join(member):
-    await client.get_channel(944570768363245571).send(f"{member.mention} has joined the server!")
-
-@client.command()
-async def timer(ctx, seconds):
-        secondint = int(seconds)
-        if secondint > 86400:
-            await ctx.channel.purge(limit=1)
-            await ctx.send(f"<a:S_CrossTimer:963025312961134642> | My limit is 24 hours!", delete_after=5)
-            raise BaseException
-        if secondint <= 0:
-            await ctx.channel.purge(limit=1)
-            await ctx.send(f"<a:S_CrossTimer:963025312961134642> | Please enter a positive number!", delete_after=5)
-            raise BaseException
-        em = nextcord.Embed(color=ctx.author.color)
-        em.set_author(name=f"{ctx.author.name}'s timer: {seconds}secs", icon_url="https://cdn.discordapp.com/emojis/771644894149607424.gif?v=1")
-        message = await ctx.send(embed=em)
-
-        while True:
-            secondint -= 1
-            if secondint == 0:
-                em = nextcord.Embed(title="Ended!", color=ctx.author.color)
-                em.set_footer(text=f"Time ended after {seconds}secs")
-                await message.edit(embed=em)
-                break
-            em = nextcord.Embed(color=ctx.author.color)
-            em.set_author(name=f"{ctx.author.name}'s timer: {secondint}secs", icon_url="https://cdn.discordapp.com/emojis/771644894149607424.gif?v=1")    
-            await message.edit(embed=em)
-            await asyncio.sleep(1) 
-        await message.reply(f"<a:S_TickTimer:963025090365255720> | {ctx.author.mention} Your timer has ended!")
-@timer.error
-async def timer_error(ctx,error):
-    if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.channel.purge(limit=1)
-        await ctx.send(f"<a:S_CrossTimer:963025312961134642> | Please enter a number!", delete_after=5)                               
+    await client.get_channel(944570768363245571).send(f"{member.mention} has joined the server!")                           
 
 @client.command()
 @commands.has_permissions(administrator=True)
@@ -110,4 +77,4 @@ async def on_command_error(ctx, error):
         await ctx.send("Command is disabled ._.")
         return          
 
-client.run(os.getenv("MIKU"))
+client.run(os.getenv("TOKEN"))
