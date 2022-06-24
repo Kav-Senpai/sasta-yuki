@@ -10,6 +10,7 @@ from nextcord import File, ButtonStyle
 import asyncio
 import aiohttp
 import datetime
+from bs4 import BeautifulSoup
 from datetime import datetime
 import json
 import random
@@ -34,37 +35,36 @@ class Fun(commands.Cog):
     @commands.command(aliases=["MEME","Meme"])
     async def meme(self,ctx):
         """Sends a MEME"""
-        async with ctx.channel.typing():
-            async def get_meme():
-                async with aiohttp.ClientSession() as cs:
-                    async with cs.get("https://www.reddit.com/r/memes/new.json?sort=hot") as r:
-                        res = await r.json()
+        async def get_meme():
+            async with aiohttp.ClientSession() as cs:
+                async with cs.get("https://www.reddit.com/r/memes/new.json?sort=hot") as r:
+                    res = await r.json()
 
-                return res['data']['children'][random.randint(0, 25)]['data']['url']
+            return res['data']['children'][random.randint(0, 25)]['data']['url']
 
-            async def button1_callback(interaction):            
-                meme = await get_meme()
-                emb = interaction.message.embeds[0].set_image(url=meme)
-                await interaction.response.edit_message(embed=emb)
-            async def button2_callback(interaction):
-                await interaction.response.edit_message(view=disabled)    
+        async def button1_callback(interaction):            
+            meme = await get_meme()
+            emb = interaction.message.embeds[0].set_image(url=meme)
+            await interaction.response.edit_message(embed=emb)
+        async def button2_callback(interaction):
+            await interaction.response.edit_message(view=disabled)    
 
-            button1 = Button(label='Next Meme', style=nextcord.ButtonStyle.green)
-            button2 = Button(label='End Interaction', style=nextcord.ButtonStyle.gray)
-            button3 = Button(label='Next Meme', style=nextcord.ButtonStyle.green, disabled=True)
-            button4 = Button(label='End Interaction', style=nextcord.ButtonStyle.gray, disabled=True)            
-            view = View()
-            disabled = View()
-            button1.callback=button1_callback
-            button2.callback=button2_callback
-            view.add_item(button1) 
-            view.add_item(button2)
-            disabled.add_item(button3)
-            disabled.add_item(button4)
+        button1 = Button(label='Next Meme', style=nextcord.ButtonStyle.green)
+        button2 = Button(label='End Interaction', style=nextcord.ButtonStyle.gray)
+        button3 = Button(label='Next Meme', style=nextcord.ButtonStyle.green, disabled=True)
+        button4 = Button(label='End Interaction', style=nextcord.ButtonStyle.gray, disabled=True)            
+        view = View()
+        disabled = View()
+        button1.callback=button1_callback
+        button2.callback=button2_callback
+        view.add_item(button1) 
+        view.add_item(button2)
+        disabled.add_item(button3)
+        disabled.add_item(button4)
 
-            embed = nextcord.Embed(title='New Meme!', color=nextcord.Color.blue())
-            embed.set_image(url=await get_meme())
-            await ctx.reply(embed=embed,view=view)           
+        embed = nextcord.Embed(title='New Meme!', color=nextcord.Color.blue())
+        embed.set_image(url=await get_meme())
+        await ctx.reply(embed=embed,view=view)           
 
     @commands.Cog.listener()
     async def on_message_delete(self,message):
@@ -179,8 +179,11 @@ class Fun(commands.Cog):
         """Uwuifies the given member's name"""
         smileys = [';;w;;', '^w^', '>w<', '(*^ω^)','UwU', '(・`ω\´・)', '(´・ω・\`)','(◕ᴥ◕)','(◕‿◕✿)',' ღ(U꒳Uღ)','(◡ ሠ ◡)','( ᴜ ω ᴜ )','(ㅅꈍ ˘ ꈍ)','(˘ε˘)']        
         marks = ["??!","?!?","!!?",'!?!','!??','?!!']
-        await member.edit(nick=nekos.owoify(member.display_name))
-        await ctx.send(f"{member.mention}'s name has been uwuified{random.choice(marks)} {random.choice(smileys)}")
+        if member.bot == True:
+            await ctx.send("You cannot uwuify a bot!")
+        else:    
+            await member.edit(nick=nekos.owoify(member.display_name))
+            await ctx.send(f"{member.mention}'s name has been uwuified{random.choice(marks)} {random.choice(smileys)}")
 
     @commands.command(aliases=["Why","WHY"])
     async def why(self, ctx):
@@ -196,6 +199,20 @@ class Fun(commands.Cog):
     async def fact(self, ctx):
         """Sends a random fact"""
         await ctx.reply(nekos.fact())        
+
+    @commands.command(help="Send top 3 news")                   
+    async def news(self, ctx):
+        url = 'https://www.bbc.com/news'                               #URL for news
+        response = requests.get(url)                                   
+
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        links = []
+
+        for a in soup.select("[class~=gs-c-promo-heading]",href=True):
+            links.append("https://www.bbc.com"+ a['href'])              #Add links to news article
+
+        await ctx.send(f"{links[1]}\n{links[2]}\n{links[13]}\n")  
 
     @commands.command(name="calculate", aliases=["Calculate","CALCULATE","Calc","calc","CALC"])
     async def interactive_calc(self, ctx):

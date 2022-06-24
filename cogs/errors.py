@@ -8,10 +8,8 @@ class Errors(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx, error):
-        # Uncomment line 26 for printing debug
         print(error)
 
-        # Bot does not have permission
         if isinstance(error, commands.MissingPermissions):
             await ctx.send('Bot Permission Missing!')
 
