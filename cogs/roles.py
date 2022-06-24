@@ -799,7 +799,7 @@ class Anime(nextcord.ui.View):
     @nextcord.ui.button(style=nextcord.ButtonStyle.gray, emoji="<:Hugz_yuki:949974767417561158>", label="Prefers Sub", custom_id="sub", row=1)
     async def sub(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
 
-        role = interaction.guild.get_role(951801628388900876)
+        role = interaction.guild.get_role(951801546570600509)
         assert isinstance(role, nextcord.Role)      
 
         if role in interaction.user.roles:
@@ -814,7 +814,7 @@ class Anime(nextcord.ui.View):
     @nextcord.ui.button(style=nextcord.ButtonStyle.gray, emoji="<:02Hug_yuki:955379637763072000>", label="Prefers Dub", custom_id="dub", row=1)
     async def dub(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
 
-        role = interaction.guild.get_role(951801546570600509)
+        role = interaction.guild.get_role(951801628388900876)
         assert isinstance(role, nextcord.Role)      
 
         if role in interaction.user.roles:
